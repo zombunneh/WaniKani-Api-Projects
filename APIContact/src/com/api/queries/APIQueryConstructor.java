@@ -11,20 +11,22 @@ import org.restlet.util.Series;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLOutput;
 import java.util.*;
 
 public class APIQueryConstructor {
-    //private String APIKey;
     private ClientResource WKAPI;
     private String RequestURLInitial = "";
     private String APIVersion = "";
 
+    /**
+     * Here we setup the member variables read in from a settings file containing the base url for the API endpoint and the current API version
+     */
     public APIQueryConstructor()
     {
         File SettingsFile = new File(System.getProperty("user.dir") + "/src/com/api/queries/settings/settings.txt");
-        //InputStream SettingsFile = this.getClass().getResourceAsStream("settings.txt");
         Scanner ReadSettings;
 
         try {
@@ -45,46 +47,47 @@ public class APIQueryConstructor {
         }
     }
 
-    /*
-    If you want to access a specific data point you must supply an ID -- potentially overload the method to allow such a call later on
 
-    This method takes the 3 Strings to build an API request by forming the URL, and then adding the header etc..
+    /**
+     *
+     * To access a specific data point an ID must be supplied, may overload method later to provide functionality
+     *
+     * TODO: FLEXIBLE API CALL + PROCESS API RESPONSE AS JSON OBJECT
+     *
+     * @param APIKey The API key to be used for authorization
+     * @param RequestType The type of restful request to make, corresponds to the 4 verbs
+     * @param Category The API endpoint to be accessed
      */
     public void MakeAPICall(String APIKey, String RequestType, String Category)
     {
-        String RequestURL = BuildAPIRequestURL(Category);
+        String RequestURL = BuildAPIRequestURL(Category); // create the url for the api request to access
 
-        WKAPI = new ClientResource(RequestURL);
+        WKAPI = new ClientResource(RequestURL); // create a new client for restful calls
         WKAPI.setProtocol(Protocol.HTTPS);
 
-        ChallengeResponse AuthHeader = new ChallengeResponse(ChallengeScheme.HTTP_BASIC);
-        AuthHeader.setRawValue("Authorization: Bearer " + APIKey);
-        Header VersionHeader = new Header("WaniKani Revision", APIVersion);
-
+        ChallengeResponse AuthHeader = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER); // here we set the authorization header with the API key required to access the API
+        AuthHeader.setRawValue(APIKey);
+        AuthHeader.setIdentifier("Bearer");
+        //Header VersionHeader = new Header("WaniKani Revision", APIVersion);
         WKAPI.setChallengeResponse(AuthHeader);
-        /*WKAPI.getRequest().getHeaders().add(VersionHeader);*/
-        System.out.println(WKAPI.toString());
-        System.out.println(AuthHeader.getRawValue());
+        //System.out.println(WKAPI.getChallengeResponse().getRawValue());
+        //WKAPI.getRequest().getHeaders().add(VersionHeader);
+        WKAPI.setAttribute("WaniKani Revision", APIVersion); // setting the attribute for the current API version, unsure if this does anything
 
-        Representation response = WKAPI.get();
+        Representation Response = WKAPI.get(); // here we make our call to the API
 
-        long size = response.getSize();
-
-        System.out.println(size);
-
-        /*Response Response = WKAPI.getResponse();
-        if(Response.getStatus().isSuccess())
-        {
-            System.out.println("API Call successful!");
+        try {
+            System.out.println(Response.getText()); // printing the response we received
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        else
-        {
-            System.out.println("API Call unsuccessful.");
-        }
-
-        System.out.println(Response.getEntityAsText());*/
     }
 
+    /**
+     *
+     * @param Category The API endpoint to be accessed
+     * @return A String to be used as the URL for restful calls to the API utilised
+     */
     private String BuildAPIRequestURL(String Category)
     {
         StringBuilder BuildRequestURL = new StringBuilder();

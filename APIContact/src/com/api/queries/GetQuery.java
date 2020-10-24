@@ -11,7 +11,7 @@ public class GetQuery extends Query {
     @Override
     public void printq()
     {
-        System.out.println("hi from getquery");
+        //System.out.println("hi from getquery");
     }
 
 }

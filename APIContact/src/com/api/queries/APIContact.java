@@ -12,6 +12,12 @@ public class APIContact {
 
     private static final String APIKEY = "eb9ce760-29d4-4d5f-81e5-c6a7a80384da";
 
+    /**
+     *
+     * Main method of program to accept user input in order to construct specific queries to the WaniKani API
+     *
+     * @param args NO args need to be supplied
+     */
     public static void main(String[] args) {
 
         Query q = null;
@@ -29,8 +35,12 @@ public class APIContact {
         q.MakeQuery();
     }
 
-    /*
-    TODO : MOVE ALL USER INPUT METHODS TO SEPARATE CLASS!
+    /**
+     *
+     * TODO : MOVE ALL USER INPUT METHODS TO SEPARATE CLASS!
+     *
+     * @param q The Query object to modify
+     * @return The modified Query object that has been assigned a subclass
      */
     private static Query SetQueryType(Query q)
     {
@@ -50,10 +60,15 @@ public class APIContact {
             }
         }
 
-        q.printq();
         return q;
     }
 
+    /**
+     *
+     * Sets the API key of the Query object supplied
+     *
+     * @param q The Query object to modify
+     */
     private static void SetAPIKey(Query q)
     {
         String APIKeyInput;
@@ -61,9 +76,15 @@ public class APIContact {
         System.out.println(SetAPIKeyMessage);
 
         APIKeyInput = UserInputScanner.nextLine();
-        q.SetAPIKey(APIKEY);
+        q.SetAPIKey(APIKeyInput);
     }
 
+    /**
+     *
+     * Sets the Category of the Query object supplied
+     *
+     * @param q The Query object to modify
+     */
     private static void SetCategory(Query q)
     {
         String CategoryInput;
