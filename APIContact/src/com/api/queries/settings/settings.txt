@@ -1,0 +1,2 @@
+https://api.wanikani.com/v2/
+Wanikani-Revision: 20170710

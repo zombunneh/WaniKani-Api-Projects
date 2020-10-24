@@ -8,12 +8,6 @@ public class PostQuery extends Query {
     }
 
     @Override
-    public void MakeQuery()
-    {
-
-    }
-
-    @Override
     public void printq() {
 
     }

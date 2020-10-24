@@ -4,6 +4,7 @@ public abstract class Query implements QueryInterface{
     private String APIKey;
     private String Category;
     protected QueryType QType;
+    private APIQueryConstructor QueryConstructor = new APIQueryConstructor();
 
     @Override
     public void SetAPIKey(String Key)
@@ -25,5 +26,11 @@ public abstract class Query implements QueryInterface{
     @Override
     public String GetCategory() {
         return Category;
+    }
+
+    @Override
+    public void MakeQuery()
+    {
+        QueryConstructor.MakeAPICall(APIKey, QType.toString(), Category);
     }
 }

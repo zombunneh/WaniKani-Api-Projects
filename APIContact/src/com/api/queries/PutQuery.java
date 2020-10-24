@@ -8,12 +8,6 @@ public class PutQuery extends Query {
     }
 
     @Override
-    public void MakeQuery()
-    {
-
-    }
-
-    @Override
     public void printq() {
 
     }

@@ -9,12 +9,6 @@ public class GetQuery extends Query {
     }
 
     @Override
-    public void MakeQuery()
-    {
-
-    }
-
-    @Override
     public void printq()
     {
         System.out.println("hi from getquery");

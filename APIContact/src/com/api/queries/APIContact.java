@@ -10,6 +10,8 @@ public class APIContact {
     private static final String SetAPIKeyMessage = "Please enter your API Key:";
     private static final String SetCategoryMessage = "Please enter the chosen Category:";
 
+    private static final String APIKEY = "eb9ce760-29d4-4d5f-81e5-c6a7a80384da";
+
     public static void main(String[] args) {
 
         Query q = null;
@@ -59,7 +61,7 @@ public class APIContact {
         System.out.println(SetAPIKeyMessage);
 
         APIKeyInput = UserInputScanner.nextLine();
-        q.SetAPIKey(APIKeyInput);
+        q.SetAPIKey(APIKEY);
     }
 
     private static void SetCategory(Query q)
