@@ -31,6 +31,6 @@ public abstract class Query implements QueryInterface{
     @Override
     public void MakeQuery()
     {
-        QueryConstructor.MakeAPICall(APIKey, QType.toString(), Category);
+        QueryConstructor.MakeAPICall(APIKey, QType, Category);
     }
 }

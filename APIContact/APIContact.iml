@@ -21,5 +21,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="org.restlet" level="project" />
+    <orderEntry type="library" exported="" name="org.json:json:20200518" level="project" />
   </component>
 </module>

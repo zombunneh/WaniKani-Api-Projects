@@ -58,7 +58,7 @@ public class APIQueryConstructor {
      * @param RequestType The type of restful request to make, corresponds to the 4 verbs
      * @param Category The API endpoint to be accessed
      */
-    public void MakeAPICall(String APIKey, String RequestType, String Category)
+    public void MakeAPICall(String APIKey, QueryType RequestType, String Category)
     {
         String RequestURL = BuildAPIRequestURL(Category); // create the url for the api request to access
 
@@ -73,6 +73,18 @@ public class APIQueryConstructor {
         //System.out.println(WKAPI.getChallengeResponse().getRawValue());
         //WKAPI.getRequest().getHeaders().add(VersionHeader);
         WKAPI.setAttribute("WaniKani Revision", APIVersion); // setting the attribute for the current API version, unsure if this does anything
+
+        switch (RequestType)
+        {
+            case GET:
+                break;
+            case PUT:
+                break;
+            case POST:
+                break;
+            case DELETE:
+                break;
+        }
 
         Representation Response = WKAPI.get(); // here we make our call to the API
 
