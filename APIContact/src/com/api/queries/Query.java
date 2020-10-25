@@ -1,9 +1,12 @@
 package com.api.queries;
 
+import org.restlet.representation.Representation;
+
 public abstract class Query implements QueryInterface{
     private String APIKey;
     private String Category;
     protected QueryType QType;
+    private Representation QRepr;
     private APIQueryConstructor QueryConstructor = new APIQueryConstructor();
 
     @Override
@@ -29,8 +32,13 @@ public abstract class Query implements QueryInterface{
     }
 
     @Override
+    public Representation GetRepresentation() {
+        return QRepr;
+    }
+
+    @Override
     public void MakeQuery()
     {
-        QueryConstructor.MakeAPICall(APIKey, QType, Category);
+        QRepr = QueryConstructor.MakeAPICall(APIKey, QType, Category);
     }
 }

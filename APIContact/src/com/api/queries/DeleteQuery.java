@@ -7,8 +7,4 @@ public class DeleteQuery extends Query {
         QType = QueryType.DELETE;
     }
 
-    @Override
-    public void printq() {
-
-    }
 }

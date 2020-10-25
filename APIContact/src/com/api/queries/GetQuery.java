@@ -8,10 +8,4 @@ public class GetQuery extends Query {
         QType = QueryType.GET;
     }
 
-    @Override
-    public void printq()
-    {
-        //System.out.println("hi from getquery");
-    }
-
 }

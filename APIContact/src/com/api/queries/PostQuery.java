@@ -7,8 +7,4 @@ public class PostQuery extends Query {
         QType = QueryType.POST;
     }
 
-    @Override
-    public void printq() {
-
-    }
 }

@@ -7,8 +7,4 @@ public class PutQuery extends Query {
         QType = QueryType.PUT;
     }
 
-    @Override
-    public void printq() {
-
-    }
 }

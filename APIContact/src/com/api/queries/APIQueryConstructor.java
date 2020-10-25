@@ -20,6 +20,7 @@ public class APIQueryConstructor {
     private ClientResource WKAPI;
     private String RequestURLInitial = "";
     private String APIVersion = "";
+    private static final String VersionIdentifier = "Wanikani-Revision";
 
     /**
      * Here we setup the member variables read in from a settings file containing the base url for the API endpoint and the current API version
@@ -58,41 +59,46 @@ public class APIQueryConstructor {
      * @param RequestType The type of restful request to make, corresponds to the 4 verbs
      * @param Category The API endpoint to be accessed
      */
-    public void MakeAPICall(String APIKey, QueryType RequestType, String Category)
+    public Representation MakeAPICall(String APIKey, QueryType RequestType, String Category)
     {
         String RequestURL = BuildAPIRequestURL(Category); // create the url for the api request to access
 
         WKAPI = new ClientResource(RequestURL); // create a new client for restful calls
         WKAPI.setProtocol(Protocol.HTTPS);
 
-        ChallengeResponse AuthHeader = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER); // here we set the authorization header with the API key required to access the API
+        ChallengeResponse AuthHeader = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER); // here we create the authorization header with the API key required to access the API
         AuthHeader.setRawValue(APIKey);
         AuthHeader.setIdentifier("Bearer");
-        //Header VersionHeader = new Header("WaniKani Revision", APIVersion);
-        WKAPI.setChallengeResponse(AuthHeader);
-        //System.out.println(WKAPI.getChallengeResponse().getRawValue());
-        //WKAPI.getRequest().getHeaders().add(VersionHeader);
-        WKAPI.setAttribute("WaniKani Revision", APIVersion); // setting the attribute for the current API version, unsure if this does anything
+        Header VersionHeader = new Header(VersionIdentifier, APIVersion); // here we create the version header with the API version required to access the API
 
-        switch (RequestType)
+        WKAPI.setChallengeResponse(AuthHeader); // setting the header for the authorization key
+        WKAPI.getRequest().getHeaders().add(VersionHeader); // setting the header for the current API version
+
+        Representation Repr = null;
+
+        switch (RequestType) // switch  to determine type of call to make based on given parameter
         {
             case GET:
+                Repr = WKAPI.get(); // here we make our call to the API
                 break;
             case PUT:
+                Repr = WKAPI.get(); // here we make our call to the API
                 break;
             case POST:
+                Repr = WKAPI.get(); // here we make our call to the API
                 break;
             case DELETE:
+                Repr = WKAPI.get(); // here we make our call to the API
                 break;
         }
 
-        Representation Response = WKAPI.get(); // here we make our call to the API
-
         try {
-            System.out.println(Response.getText()); // printing the response we received
+            System.out.println(Repr.getText()); // printing the response we received
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return Repr;
     }
 
     /**

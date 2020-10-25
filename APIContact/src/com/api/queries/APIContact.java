@@ -22,8 +22,6 @@ public class APIContact {
 
         Query q = null;
 
-        APIQueryConstructor WKQuery = new APIQueryConstructor();
-
         q = SetQueryType(q);
 
         SetAPIKey(q);
