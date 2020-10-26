@@ -4,8 +4,8 @@ import org.restlet.representation.Representation;
 
 public abstract class Query implements QueryInterface{
     private String APIKey;
-    private String Category;
     protected QueryType QType;
+    private APIEndpoint AEndpoint;
     private Representation QRepr;
     private APIQueryConstructor QueryConstructor = new APIQueryConstructor();
 
@@ -21,14 +21,14 @@ public abstract class Query implements QueryInterface{
     }
 
     @Override
-    public void SetCategory(String Cat)
+    public void SetEndpoint(APIEndpoint Endpoint)
     {
-        Category = Cat;
+        AEndpoint = Endpoint;
     }
 
     @Override
-    public String GetCategory() {
-        return Category;
+    public APIEndpoint GetEndpoint() {
+        return AEndpoint;
     }
 
     @Override
@@ -39,6 +39,6 @@ public abstract class Query implements QueryInterface{
     @Override
     public void MakeQuery()
     {
-        QRepr = QueryConstructor.MakeAPICall(APIKey, QType, Category);
+        QRepr = QueryConstructor.MakeAPICall(APIKey, QType, AEndpoint);
     }
 }

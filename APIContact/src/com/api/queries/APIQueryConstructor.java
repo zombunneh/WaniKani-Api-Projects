@@ -1,19 +1,15 @@
 package com.api.queries;
 
-import org.restlet.*;
 import org.restlet.data.ChallengeResponse;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.data.Header;
 import org.restlet.data.Protocol;
 import org.restlet.representation.Representation;
 import org.restlet.resource.ClientResource;
-import org.restlet.util.Series;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class APIQueryConstructor {
@@ -27,7 +23,7 @@ public class APIQueryConstructor {
      */
     public APIQueryConstructor()
     {
-        File SettingsFile = new File(System.getProperty("user.dir") + "/src/com/api/queries/settings/settings.txt");
+        File SettingsFile = new File(System.getProperty("user.dir") + "/APIContact/src/com/api/queries/settings/settings.txt");
         Scanner ReadSettings;
 
         try {
@@ -44,7 +40,7 @@ public class APIQueryConstructor {
             }
 
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            e.printStackTrace(); // potentially handle some way (popup -- error settings file unable to be located -- ask for location?)
         }
     }
 
@@ -53,15 +49,15 @@ public class APIQueryConstructor {
      *
      * To access a specific data point an ID must be supplied, may overload method later to provide functionality
      *
-     * TODO: FLEXIBLE API CALL + PROCESS API RESPONSE AS JSON OBJECT
+     * TODO: FLEXIBLE API CALL + PROCESS API RESPONSE AS JSON OBJECT + CHECK FOR NEXT PAGE IN RESPONSE (new method/class)?
      *
      * @param APIKey The API key to be used for authorization
      * @param RequestType The type of restful request to make, corresponds to the 4 verbs
-     * @param Category The API endpoint to be accessed
+     * @param Endpoint The API endpoint to be accessed
      */
-    public Representation MakeAPICall(String APIKey, QueryType RequestType, String Category)
+    public Representation MakeAPICall(String APIKey, QueryType RequestType, APIEndpoint Endpoint)
     {
-        String RequestURL = BuildAPIRequestURL(Category); // create the url for the api request to access
+        String RequestURL = BuildAPIRequestURL(Endpoint); // create the url for the api request to access
 
         WKAPI = new ClientResource(RequestURL); // create a new client for restful calls
         WKAPI.setProtocol(Protocol.HTTPS);
@@ -103,14 +99,14 @@ public class APIQueryConstructor {
 
     /**
      *
-     * @param Category The API endpoint to be accessed
+     * @param Endpoint The API endpoint to be accessed
      * @return A String to be used as the URL for restful calls to the API utilised
      */
-    private String BuildAPIRequestURL(String Category)
+    private String BuildAPIRequestURL(APIEndpoint Endpoint)
     {
         StringBuilder BuildRequestURL = new StringBuilder();
         BuildRequestURL.append(RequestURLInitial);
-        BuildRequestURL.append(Category);
+        BuildRequestURL.append(Endpoint.toString().toLowerCase());
 
         return BuildRequestURL.toString();
     }

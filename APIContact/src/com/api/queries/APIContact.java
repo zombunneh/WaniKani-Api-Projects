@@ -9,12 +9,17 @@ public class APIContact {
     private static final String InvalidQueryTypeMessage = "Invalid Query Type. Please enter a valid Query Type:";
     private static final String SetAPIKeyMessage = "Please enter your API Key:";
     private static final String SetCategoryMessage = "Please enter the chosen Category:";
+    public static final String InvalidCategoryMessage = "Invalid Category. Please enter a valid Category";
 
     private static final String APIKEY = "eb9ce760-29d4-4d5f-81e5-c6a7a80384da";
 
     /**
      *
      * Main method of program to accept user input in order to construct specific queries to the WaniKani API
+     *
+     * TODO: Eventually overhaul main method and replace with gui -- converting this class into purely for calling the api -- may even be unnecessary
+     *
+     * TODO: check user subscription status and feedback
      *
      * @param args NO args need to be supplied
      */
@@ -28,7 +33,7 @@ public class APIContact {
         System.out.println(q.GetAPIKey());
 
         SetCategory(q);
-        System.out.println(q.GetCategory());
+        System.out.println(q.GetEndpoint().toString());
 
         q.MakeQuery();
     }
@@ -79,17 +84,33 @@ public class APIContact {
 
     /**
      *
-     * Sets the Category of the Query object supplied
+     * Sets the Endpoint of the Query object supplied
      *
      * @param q The Query object to modify
      */
     private static void SetCategory(Query q)
     {
-        String CategoryInput;
+        String EndpointInput;
 
         System.out.println(SetCategoryMessage);
 
-        CategoryInput = UserInputScanner.nextLine();
-        q.SetCategory(CategoryInput);
+        EndpointInput = UserInputScanner.nextLine();
+
+        while(q.GetEndpoint() == null)
+        {
+            for (APIEndpoint e : APIEndpoint.values())
+            {
+                if (EndpointInput.equalsIgnoreCase(e.toString()))
+                {
+                    q.SetEndpoint(e);
+                }
+            }
+
+            if(q.GetEndpoint() == null)
+            {
+                System.out.println(InvalidCategoryMessage);
+            }
+        }
     }
+
 }

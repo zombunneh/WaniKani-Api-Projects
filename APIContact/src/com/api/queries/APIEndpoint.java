@@ -1,0 +1,15 @@
+package com.api.queries;
+
+public enum APIEndpoint {
+    ASSIGNMENTS,
+    LEVEL_PROGRESSIONS,
+    RESETS,
+    REVIEWS,
+    REVIEW_STATISTICS,
+    SPACED_REPETITION_SYSTEMS,
+    STUDY_MATERIALS,
+    SUBJECTS,
+    SUMMARY,
+    USER,
+    VOICE_ACTORS
+}
