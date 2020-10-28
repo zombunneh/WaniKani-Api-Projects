@@ -11,8 +11,6 @@ public class APIContact {
     private static final String SetCategoryMessage = "Please enter the chosen Category:";
     public static final String InvalidCategoryMessage = "Invalid Category. Please enter a valid Category";
 
-    private static final String APIKEY = "eb9ce760-29d4-4d5f-81e5-c6a7a80384da";
-
     /**
      *
      * Main method of program to accept user input in order to construct specific queries to the WaniKani API
@@ -40,7 +38,7 @@ public class APIContact {
 
     /**
      *
-     * TODO : MOVE ALL USER INPUT METHODS TO SEPARATE CLASS!
+     * TODO: MOVE ALL USER INPUT METHODS TO SEPARATE CLASS!
      *
      * @param q The Query object to modify
      * @return The modified Query object that has been assigned a subclass

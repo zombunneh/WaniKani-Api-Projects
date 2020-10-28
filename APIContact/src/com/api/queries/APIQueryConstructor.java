@@ -23,7 +23,7 @@ public class APIQueryConstructor {
      */
     public APIQueryConstructor()
     {
-        File SettingsFile = new File(System.getProperty("user.dir") + "/APIContact/src/com/api/queries/settings/settings.txt");
+        File SettingsFile = new File(System.getProperty("user.dir") + "/src/com/api/queries/settings/settings.txt");
         Scanner ReadSettings;
 
         try {
