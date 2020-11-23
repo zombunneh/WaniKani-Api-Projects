@@ -10,11 +10,22 @@ class APIContactTest {
 
     private static final InputStream defaultStream = System.in;
 
+    public static final String CorrectQueryType = "";
+    public static final String CorrectAPIKey = "";
+    public static final String CorrectEndpoint = "";
+    public static final String IncorrectQueryType = "";
+    public static final String IncorrectAPIKey = "";
+    public static final String IncorrectEndpoint = "";
+
+    /**
+     * Setting up the test class
+     */
     @BeforeEach
     void setUp()
     {
             InputStream TestFile = this.getClass().getResourceAsStream("MainTestValues.txt");
             System.setIn(TestFile);
+
     }
 
     @AfterEach
