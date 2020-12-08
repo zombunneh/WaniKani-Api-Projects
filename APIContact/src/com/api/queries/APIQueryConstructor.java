@@ -78,13 +78,13 @@ public class APIQueryConstructor {
                 Repr = WKAPI.get(); // here we make our call to the API
                 break;
             case PUT:
-                Repr = WKAPI.get(); // here we make our call to the API
+                Repr = WKAPI.put(null); // here we make our call to the API
                 break;
             case POST:
-                Repr = WKAPI.get(); // here we make our call to the API
+                Repr = WKAPI.post(null); // here we make our call to the API
                 break;
             case DELETE:
-                Repr = WKAPI.get(); // here we make our call to the API
+                Repr = WKAPI.delete(); // here we make our call to the API
                 break;
         }
 
