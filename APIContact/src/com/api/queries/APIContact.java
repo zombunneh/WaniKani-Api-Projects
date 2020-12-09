@@ -1,6 +1,7 @@
 package com.api.queries;
 
 import java.util.Scanner;
+import com.api.json.JSONParse;
 
 public class APIContact {
     public static final Scanner UserInputScanner = new Scanner(System.in);
@@ -34,6 +35,9 @@ public class APIContact {
         System.out.println(q.GetEndpoint().toString());
 
         q.MakeQuery();
+
+        JSONParse parser = new JSONParse();
+        parser.readResponse(q.GetRepresentation());
     }
 
     /**

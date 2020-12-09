@@ -88,6 +88,11 @@ public class APIQueryConstructor {
                 break;
         }
 
+        /**
+         *
+         * To be removed after testing
+         *
+         */
         try {
             System.out.println(Repr.getText()); // printing the response we received
         } catch (IOException e) {
