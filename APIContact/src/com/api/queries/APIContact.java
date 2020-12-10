@@ -11,6 +11,7 @@ public class APIContact {
     private static final String SetAPIKeyMessage = "Please enter your API Key:";
     private static final String SetCategoryMessage = "Please enter the chosen Category:";
     public static final String InvalidCategoryMessage = "Invalid Category. Please enter a valid Category";
+    public static final String SetFormatMessage = "Please choose a data format:";
 
     /**
      *
@@ -19,6 +20,8 @@ public class APIContact {
      * TODO: Eventually overhaul main method and replace with gui -- converting this class into purely for calling the api -- may even be unnecessary
      *
      * TODO: check user subscription status and feedback
+     *
+     * TODO: Add-on database for longer term storage of results?
      *
      * @param args NO args need to be supplied
      */
@@ -37,12 +40,14 @@ public class APIContact {
         q.MakeQuery();
 
         JSONParse parser = new JSONParse();
-        parser.readResponse(q.GetRepresentation());
+        parser.ReadResponse(q.GetRepresentation());
     }
 
     /**
      *
      * TODO: MOVE ALL USER INPUT METHODS TO SEPARATE CLASS!
+     *
+     * Sets the type of query to be made, corresponding to the 4 HTTP Verbs (GET PUT POST DELETE)
      *
      * @param q The Query object to modify
      * @return The modified Query object that has been assigned a subclass
@@ -115,4 +120,8 @@ public class APIContact {
         }
     }
 
+    private static void SetFormatQuery(JSONParse jparse)
+    {
+        System.out.println(SetFormatMessage);
+    }
 }

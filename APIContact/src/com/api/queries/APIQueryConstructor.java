@@ -87,17 +87,6 @@ public class APIQueryConstructor {
                 Repr = WKAPI.delete(); // here we make our call to the API
                 break;
         }
-
-        /**
-         *
-         * To be removed after testing
-         *
-         */
-        try {
-            System.out.println(Repr.getText()); // printing the response we received
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         
         return Repr;
     }

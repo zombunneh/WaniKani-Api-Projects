@@ -1,5 +1,6 @@
 package com.api.json;
 
+import org.json.JSONArray;
 import org.restlet.representation.Representation;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -9,26 +10,119 @@ import java.io.InputStream;
 
 public class JSONParse {
 
+    public static final String dataString = "data";
+    public static final String pagesString = "pages";
+
+    public static final String totalCount = "total_count";
+    public static final String pageCount = "per_page";
+    public static final String url = "next_url";
+    public static final String updateDate = "data_updated_at";
+
     /**
      * TODO: Overload method for different response types
+     * TODO: Need to check for next page url, and construct new query to retrieve next page if necessary
      *
      * @param repr The Representation object to read from
      */
-    public void readResponse(Representation repr)
+    public void ReadResponse(Representation repr)
     {
+        JSONObject object = null;
+        InputStream is;
+        String objectType;
+
+        //get the json data from representation object into readable JSONObject
         try
         {
-            InputStream is = repr.getStream();
+            is = repr.getStream();
+
             if(is == null)
             {
                 throw new NullPointerException("Cannot acquire stream from object");
             }
-            JSONTokener tokener = new JSONTokener(repr.getStream());
-            JSONObject object = new JSONObject(tokener);
+
+            JSONTokener tokener = new JSONTokener(is);
+            object = new JSONObject(tokener);
         }
         catch(IOException | NullPointerException e)
         {
             e.printStackTrace();
         }
+
+        //test code REMOVE when done
+        /*if(object != null && !object.isEmpty())
+            System.out.println(object.toString());*/
+
+        objectType = object.getString("object");
+
+        // handle the json response according to response type
+        if(objectType.equals("collection") || objectType.equals("report"))
+        {
+            FormatCollection(object);
+        }
+        else if(objectType.equals("resource"))
+        {
+            FormatResource(object);
+        }
+        else
+        {
+            throw new IllegalArgumentException("Unable to determine resource type " + objectType);
+        }
+    }
+
+    /**
+     *
+     * TODO: Implement check for next page of results, set flag to notify re-query(?), format date received - maybe cache data
+     *
+     * @param obj The object containing the data to be formatted
+     */
+    private void FormatCollection(JSONObject obj)
+    {
+        int count = 0;
+        int countPerPage = 0;
+        String nextUrl = "";
+        String date = "";
+
+        JSONArray dataArray = obj.getJSONArray(dataString);
+        System.out.println(dataArray.toString());
+
+        JSONObject pagesObject = obj.getJSONObject(pagesString);
+
+        //not currently using these variables in this iteration.
+        count = obj.getInt(totalCount);
+        countPerPage = pagesObject.getInt(pageCount);
+        if(!pagesObject.isNull(url))
+        {
+            nextUrl = pagesObject.getString(url);
+        }
+        date = obj.getString(updateDate);
+
+        for(int i = 0; i < dataArray.length(); i++)
+        {
+            dataArray.getJSONObject(i);
+        }
+    }
+
+    /**
+     *
+     *
+     *
+     * @param obj The object containing the data to be formatted
+     */
+    private void FormatResource(JSONObject obj)
+    {
+        String date = "";
+
+        JSONObject dataObject = obj.getJSONObject("data");
+        System.out.println(dataObject.toString());
+    }
+
+    private void FormatCSV()
+    {
+        
+    }
+
+    private void FormatTxt()
+    {
+
     }
 }
