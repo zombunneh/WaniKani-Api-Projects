@@ -67,6 +67,7 @@ public class JSONParse {
 
     /**
      *
+     * Method to format a collection or report object and display it to the user
      * TODO: Implement check for next page of results, set flag to notify re-query(?), format date received - maybe cache data
      *
      * @param obj The object containing the data to be formatted
@@ -92,9 +93,13 @@ public class JSONParse {
         }
         date = obj.getString(updateDate);
 
+        System.out.println("Amount of results returned: " + count);
+        System.out.println("Date updated: " + date);
+
         for(int i = 0; i < dataArray.length(); i++)
         {
-            dataArray.getJSONObject(i);
+            JSONObject tempObject = dataArray.getJSONObject(i);
+            System.out.println(tempObject.toString());
         }
     }
 
@@ -110,11 +115,6 @@ public class JSONParse {
 
         JSONObject dataObject = obj.getJSONObject("data");
         System.out.println(dataObject.toString());
-    }
-    
-    private void FormatDisplay()
-    {
-
     }
 
     private void FormatCSV()
