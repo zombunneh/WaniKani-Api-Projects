@@ -48,10 +48,6 @@ public class JSONParse {
             e.printStackTrace();
         }
 
-        //test code REMOVE when done
-        /*if(object != null && !object.isEmpty())
-            System.out.println(object.toString());*/
-
         objectType = object.getString("object");
 
         // handle the json response according to response type
@@ -115,13 +111,28 @@ public class JSONParse {
         JSONObject dataObject = obj.getJSONObject("data");
         System.out.println(dataObject.toString());
     }
+    
+    private void FormatDisplay()
+    {
+
+    }
 
     private void FormatCSV()
     {
-        
+        System.out.println("currently being built");
     }
 
     private void FormatTxt()
+    {
+
+    }
+
+    private void SaveCSV()
+    {
+
+    }
+
+    private void SaveTxt()
     {
 
     }
