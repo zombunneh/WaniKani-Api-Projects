@@ -10,25 +10,29 @@ import java.io.InputStream;
 
 public class JSONParse {
 
-    public static final String dataString = "data";
-    public static final String pagesString = "pages";
+    private int pageNum = 0;
 
-    public static final String totalCount = "total_count";
-    public static final String pageCount = "per_page";
-    public static final String url = "next_url";
-    public static final String updateDate = "data_updated_at";
+    private static final String dataString = "data";
+    private static final String pagesString = "pages";
+
+    private static final String totalCount = "total_count";
+    private static final String pageCount = "per_page";
+    private static final String url = "next_url";
+    private static final String updateDate = "data_updated_at";
 
     /**
      * TODO: Overload method for different response types
      * TODO: Need to check for next page url, and construct new query to retrieve next page if necessary
+     * Might convert next url to class attribute when threaded
      *
      * @param repr The Representation object to read from
      */
-    public void ReadResponse(Representation repr)
+    public String ReadResponse(Representation repr)
     {
         JSONObject object = null;
         InputStream is;
         String objectType;
+        String nextUrl = "";
 
         //get the json data from representation object into readable JSONObject
         try
@@ -53,31 +57,36 @@ public class JSONParse {
         // handle the json response according to response type
         if(objectType.equals("collection") || objectType.equals("report"))
         {
-            FormatCollection(object);
+            nextUrl = FormatCollection(object);
         }
         else if(objectType.equals("resource"))
         {
             FormatResource(object);
+            nextUrl = "";
         }
         else
         {
             throw new IllegalArgumentException("Unable to determine resource type " + objectType);
         }
+
+        return nextUrl;
     }
 
     /**
      *
      * Method to format a collection or report object and display it to the user
-     * TODO: Implement check for next page of results, set flag to notify re-query(?), format date received - maybe cache data
+     * TODO: Implement check for next page of results, return non-empty string to query for next page, format date received - maybe cache data
      *
      * @param obj The object containing the data to be formatted
      */
-    private void FormatCollection(JSONObject obj)
+    private String FormatCollection(JSONObject obj)
     {
         int count = 0;
         int countPerPage = 0;
         String nextUrl = "";
         String date = "";
+
+        pageNum++;
 
         JSONArray dataArray = obj.getJSONArray(dataString);
         System.out.println(dataArray.toString());
@@ -91,8 +100,13 @@ public class JSONParse {
         {
             nextUrl = pagesObject.getString(url);
         }
+        else
+        {
+            nextUrl = "";
+        }
         date = obj.getString(updateDate);
 
+        System.out.println("Page: " + pageNum);
         System.out.println("Amount of results returned: " + count);
         System.out.println("Date updated: " + date);
 
@@ -101,6 +115,8 @@ public class JSONParse {
             JSONObject tempObject = dataArray.getJSONObject(i);
             System.out.println(tempObject.toString());
         }
+
+        return nextUrl;
     }
 
     /**

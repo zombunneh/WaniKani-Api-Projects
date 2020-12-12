@@ -10,9 +10,9 @@ public abstract class Query implements QueryInterface{
     private APIQueryConstructor QueryConstructor = new APIQueryConstructor();
 
     @Override
-    public void SetAPIKey(String Key)
+    public void SetAPIKey(String key)
     {
-        APIKey = Key;
+        APIKey = key;
     }
 
     @Override
@@ -21,9 +21,9 @@ public abstract class Query implements QueryInterface{
     }
 
     @Override
-    public void SetEndpoint(APIEndpoint Endpoint)
+    public void SetEndpoint(APIEndpoint endpoint)
     {
-        AEndpoint = Endpoint;
+        AEndpoint = endpoint;
     }
 
     @Override
@@ -37,8 +37,11 @@ public abstract class Query implements QueryInterface{
     }
 
     @Override
-    public void MakeQuery()
+    public void MakeQuery(String url)
     {
-        QRepr = QueryConstructor.MakeAPICall(APIKey, QType, AEndpoint);
+        if(url.equals(""))
+            QRepr = QueryConstructor.MakeAPICall(APIKey, QType, AEndpoint);
+        else
+            QRepr = QueryConstructor.MakeAPICall(APIKey, url);
     }
 }

@@ -9,7 +9,6 @@ import org.restlet.resource.ClientResource;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.*;
 
 public class APIQueryConstructor {
@@ -23,20 +22,20 @@ public class APIQueryConstructor {
      */
     public APIQueryConstructor()
     {
-        File SettingsFile = new File(System.getProperty("user.dir") + "/src/com/api/queries/settings/settings.txt");
-        Scanner ReadSettings;
+        File settingsFile = new File(System.getProperty("user.dir") + "/src/com/api/queries/settings/settings.txt");
+        Scanner readSettings;
 
         try {
-            ReadSettings = new Scanner(SettingsFile);
+            readSettings = new Scanner(settingsFile);
 
-            if(ReadSettings.hasNextLine())
+            if(readSettings.hasNextLine())
             {
-                RequestURLInitial = ReadSettings.nextLine();
+                RequestURLInitial = readSettings.nextLine();
             }
 
-            if(ReadSettings.hasNextLine())
+            if(readSettings.hasNextLine())
             {
-                APIVersion = ReadSettings.nextLine();
+                APIVersion = readSettings.nextLine();
             }
 
         } catch (FileNotFoundException e) {
@@ -52,56 +51,84 @@ public class APIQueryConstructor {
      * TODO: FLEXIBLE API CALL + PROCESS API RESPONSE AS JSON OBJECT + CHECK FOR NEXT PAGE IN RESPONSE (new method/class)?
      *
      * @param APIKey The API key to be used for authorization
-     * @param RequestType The type of restful request to make, corresponds to the 4 verbs
-     * @param Endpoint The API endpoint to be accessed
+     * @param requestType The type of restful request to make, corresponds to the 4 verbs
+     * @param endpoint The API endpoint to be accessed
+     * @return A representation containing the API's response
      */
-    public Representation MakeAPICall(String APIKey, QueryType RequestType, APIEndpoint Endpoint)
+    public Representation MakeAPICall(String APIKey, QueryType requestType, APIEndpoint endpoint)
     {
-        String RequestURL = BuildAPIRequestURL(Endpoint); // create the url for the api request to access
+        String requestURL = BuildAPIRequestURL(endpoint); // create the url for the api request to access
 
-        WKAPI = new ClientResource(RequestURL); // create a new client for restful calls
+        WKAPI = new ClientResource(requestURL); // create a new client for restful calls
         WKAPI.setProtocol(Protocol.HTTPS);
 
-        ChallengeResponse AuthHeader = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER); // here we create the authorization header with the API key required to access the API
-        AuthHeader.setRawValue(APIKey);
-        AuthHeader.setIdentifier("Bearer");
-        Header VersionHeader = new Header(VersionIdentifier, APIVersion); // here we create the version header with the API version required to access the API
+        ChallengeResponse authHeader = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER); // here we create the authorization header with the API key required to access the API
+        authHeader.setRawValue(APIKey);
+        authHeader.setIdentifier("Bearer");
+        Header versionHeader = new Header(VersionIdentifier, APIVersion); // here we create the version header with the API version required to access the API
 
-        WKAPI.setChallengeResponse(AuthHeader); // setting the header for the authorization key
-        WKAPI.getRequest().getHeaders().add(VersionHeader); // setting the header for the current API version
+        WKAPI.setChallengeResponse(authHeader); // setting the header for the authorization key
+        WKAPI.getRequest().getHeaders().add(versionHeader); // setting the header for the current API version
 
-        Representation Repr = null;
+        Representation repr = null;
 
-        switch (RequestType) // switch  to determine type of call to make based on given parameter
+        switch (requestType) // switch  to determine type of call to make based on given parameter
         {
             case GET:
-                Repr = WKAPI.get(); // here we make our call to the API
+                repr = WKAPI.get(); // here we make our call to the API
                 break;
             case PUT:
-                Repr = WKAPI.put(null); // here we make our call to the API
+                repr = WKAPI.put(null); // here we make our call to the API
                 break;
             case POST:
-                Repr = WKAPI.post(null); // here we make our call to the API
+                repr = WKAPI.post(null); // here we make our call to the API
                 break;
             case DELETE:
-                Repr = WKAPI.delete(); // here we make our call to the API
+                repr = WKAPI.delete(); // here we make our call to the API
                 break;
         }
         
-        return Repr;
+        return repr;
     }
 
     /**
      *
-     * @param Endpoint The API endpoint to be accessed
+     *  Overloaded method to call a specific url to be used in cases where we already have a fully formed url for the API
+     *
+     * @param url The url to call the api from
+     * @return A representation containing the API's response
+     */
+    public Representation MakeAPICall(String APIKey, String url)
+    {
+        Representation repr;
+
+        WKAPI = new ClientResource(url); // create a new client for restful calls
+        WKAPI.setProtocol(Protocol.HTTPS);
+
+        ChallengeResponse authHeader = new ChallengeResponse(ChallengeScheme.HTTP_OAUTH_BEARER); // here we create the authorization header with the API key required to access the API
+        authHeader.setRawValue(APIKey);
+        authHeader.setIdentifier("Bearer");
+        Header versionHeader = new Header(VersionIdentifier, APIVersion); // here we create the version header with the API version required to access the API
+
+        WKAPI.setChallengeResponse(authHeader); // setting the header for the authorization key
+        WKAPI.getRequest().getHeaders().add(versionHeader); // setting the header for the current API version
+
+        repr = WKAPI.get(); // here we make our call to the API
+
+        return repr;
+    }
+
+    /**
+     *
+     * @param endpoint The API endpoint to be accessed
      * @return A String to be used as the URL for restful calls to the API utilised
      */
-    private String BuildAPIRequestURL(APIEndpoint Endpoint)
+    private String BuildAPIRequestURL(APIEndpoint endpoint)
     {
-        StringBuilder BuildRequestURL = new StringBuilder();
-        BuildRequestURL.append(RequestURLInitial);
-        BuildRequestURL.append(Endpoint.toString().toLowerCase());
+        StringBuilder buildRequestURL = new StringBuilder();
+        buildRequestURL.append(RequestURLInitial);
+        buildRequestURL.append(endpoint.toString().toLowerCase());
 
-        return BuildRequestURL.toString();
+        return buildRequestURL.toString();
     }
 }

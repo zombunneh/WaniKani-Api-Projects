@@ -17,17 +17,20 @@ public class APIContact {
      *
      * Main method of program to accept user input in order to construct specific queries to the WaniKani API
      *
-     * TODO: Eventually overhaul main method and replace with gui -- converting this class into purely for calling the api -- may even be unnecessary
+     * TODO: Eventually overhaul main method and replace with gui
      *
      * TODO: check user subscription status and feedback
      *
      * TODO: Add-on database for longer term storage of results?
+     *
+     * TODO: Thread application
      *
      * @param args NO args need to be supplied
      */
     public static void main(String[] args) {
 
         Query q = null;
+        String nextUrl = "";
 
         q = SetQueryType(q);
 
@@ -37,15 +40,23 @@ public class APIContact {
         SetCategory(q);
         System.out.println(q.GetEndpoint().toString());
 
-        q.MakeQuery();
+        q.MakeQuery("");
 
         JSONParse parser = new JSONParse();
-        parser.ReadResponse(q.GetRepresentation());
+        nextUrl = parser.ReadResponse(q.GetRepresentation());
+
+        if(!nextUrl.equals(""))
+        {
+            while(!nextUrl.equals(""))
+            {
+                q.MakeQuery(nextUrl);
+
+                nextUrl = parser.ReadResponse(q.GetRepresentation());
+            }
+        }
     }
 
     /**
-     *
-     * TODO: MOVE ALL USER INPUT METHODS TO SEPARATE CLASS!
      *
      * Sets the type of query to be made, corresponding to the 4 HTTP Verbs (GET PUT POST DELETE)
      *
@@ -54,15 +65,15 @@ public class APIContact {
      */
     private static Query SetQueryType(Query q)
     {
-        String QueryTypeInput;
+        String queryTypeInput;
         APIQueryFactory fac = new APIQueryFactory();
 
         System.out.println(WelcomeMessage);
 
         while(q == null) {
-            QueryTypeInput = UserInputScanner.nextLine();
+            queryTypeInput = UserInputScanner.nextLine();
 
-            q = fac.CreateQueryType(QueryTypeInput);
+            q = fac.CreateQueryType(queryTypeInput);
 
             if(q == null)
             {
@@ -97,17 +108,17 @@ public class APIContact {
      */
     private static void SetCategory(Query q)
     {
-        String EndpointInput;
+        String endpointInput;
 
         System.out.println(SetCategoryMessage);
 
-        EndpointInput = UserInputScanner.nextLine();
+        endpointInput = UserInputScanner.nextLine();
 
         while(q.GetEndpoint() == null)
         {
             for (APIEndpoint e : APIEndpoint.values())
             {
-                if (EndpointInput.equalsIgnoreCase(e.toString()))
+                if (endpointInput.equalsIgnoreCase(e.toString()))
                 {
                     q.SetEndpoint(e);
                 }

@@ -2,16 +2,16 @@ package com.api.queries;
 
 public class APIQueryFactory {
 
-    public Query CreateQueryType(String QueryType)
+    public Query CreateQueryType(String queryType)
     {
         Query q = null;
-        if (QueryType.equalsIgnoreCase("GET")) {
+        if (queryType.equalsIgnoreCase("GET")) {
             q = new GetQuery();
-        } else if (QueryType.equalsIgnoreCase("PUT")) {
+        } else if (queryType.equalsIgnoreCase("PUT")) {
             q = new PutQuery();
-        } else if (QueryType.equalsIgnoreCase("POST")) {
+        } else if (queryType.equalsIgnoreCase("POST")) {
             q = new PostQuery();
-        } else if (QueryType.equalsIgnoreCase("DELETE")) {
+        } else if (queryType.equalsIgnoreCase("DELETE")) {
             q = new DeleteQuery();
         }
         return q;
