@@ -41,6 +41,13 @@ class APIContactTest {
     void CorrectInputs()
     {
         APIContact.main(null);
+
+        // sleep thread to allow gui to be seen
+        try {
+            Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test

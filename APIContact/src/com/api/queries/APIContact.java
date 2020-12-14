@@ -1,7 +1,13 @@
 package com.api.queries;
 
 import java.util.Scanner;
+
+import com.api.gui.GUIController;
+import com.api.gui.GUIModel;
+import com.api.gui.GUIView;
 import com.api.json.JSONParse;
+
+import javax.swing.*;
 
 public class APIContact {
     public static final Scanner UserInputScanner = new Scanner(System.in);
@@ -54,6 +60,19 @@ public class APIContact {
                 nextUrl = parser.ReadResponse(q.GetRepresentation());
             }
         }
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    createAndShowWindow();
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     /**
@@ -134,5 +153,12 @@ public class APIContact {
     private static void SetFormatQuery(JSONParse jparse)
     {
         System.out.println(SetFormatMessage);
+    }
+
+    private static void createAndShowWindow() throws Exception
+    {
+        //GUIModel model = new GUIModel();
+        //GUIController controller = new GUIController();
+        new GUIView();
     }
 }
