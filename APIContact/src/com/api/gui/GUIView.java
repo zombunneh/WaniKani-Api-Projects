@@ -1,5 +1,8 @@
 package com.api.gui;
 
+import com.api.queries.APIEndpoint;
+import com.api.queries.QueryType;
+
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Method;
@@ -13,14 +16,27 @@ public class GUIView {
     private JTextField APIInputField;
     private JLabel APIInputLabel;
     private JButton APIVerifyButton;
-    private JPanel mainPanel;
+    private JPanel MainPanel;
+    private JComboBox<String> QueryOptions;
+    private JComboBox<String> EndpointOptions;
 
     public GUIView() {
         frame = new JFrame(frameTitle); // Creating frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Add components to frame
-        frame.add(mainPanel);
-        frame.setSize(100, 100);
+        frame.add(MainPanel);
+
+        // Set up combo box for 4 types of query
+        for (QueryType query : QueryType.values()) {
+            QueryOptions.addItem(query.toString());
+        }
+
+        // Set up combo box for endpoints
+        for (APIEndpoint endpoint : APIEndpoint.values()) {
+            EndpointOptions.addItem(endpoint.toString());
+        }
+
+        frame.setMinimumSize(new Dimension(100, 100));
         frame.pack(); // Size frame
         frame.setVisible(true);
     }
@@ -40,19 +56,27 @@ public class GUIView {
      * @noinspection ALL
      */
     private void $$$setupUI$$$() {
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(2, 3, new Insets(0, 0, 0, 0), -1, -1));
-        mainPanel.setBackground(new Color(-1245697));
+        MainPanel = new JPanel();
+        MainPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 3, new Insets(0, 0, 0, 0), -1, -1));
+        MainPanel.setBackground(new Color(-1245697));
+        MainPanel.setToolTipText(this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "QueryTypeLabel"));
         APIInputLabel = new JLabel();
         this.$$$loadLabelText$$$(APIInputLabel, this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "APIKeyLabel"));
-        mainPanel.add(APIInputLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        MainPanel.add(APIInputLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
-        mainPanel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        MainPanel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         APIInputField = new JTextField();
-        mainPanel.add(APIInputField, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        MainPanel.add(APIInputField, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         APIVerifyButton = new JButton();
         this.$$$loadButtonText$$$(APIVerifyButton, this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "APIButton"));
-        mainPanel.add(APIVerifyButton, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        MainPanel.add(APIVerifyButton, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        QueryOptions = new JComboBox();
+        QueryOptions.setToolTipText(this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "QueryTypeLabel"));
+        MainPanel.add(QueryOptions, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        EndpointOptions = new JComboBox();
+        EndpointOptions.setToolTipText(this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "EndpointTypeLabel"));
+        MainPanel.add(EndpointOptions, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        APIInputLabel.setLabelFor(APIInputField);
     }
 
     private static Method $$$cachedGetBundleMethod$$$ = null;
@@ -130,6 +154,7 @@ public class GUIView {
      * @noinspection ALL
      */
     public JComponent $$$getRootComponent$$$() {
-        return mainPanel;
+        return MainPanel;
     }
+
 }
