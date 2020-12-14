@@ -119,6 +119,7 @@ public class APIQueryConstructor {
     }
 
     /**
+     * Builds the url used to query the API as a string
      *
      * @param endpoint The API endpoint to be accessed
      * @return A String to be used as the URL for restful calls to the API utilised

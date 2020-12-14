@@ -7,7 +7,7 @@ public abstract class Query implements QueryInterface{
     protected QueryType QType;
     private APIEndpoint AEndpoint;
     private Representation QRepr;
-    private APIQueryConstructor QueryConstructor = new APIQueryConstructor();
+    private APIQueryConstructor QueryConstructor;
 
     @Override
     public void SetAPIKey(String key)
@@ -34,6 +34,16 @@ public abstract class Query implements QueryInterface{
     @Override
     public Representation GetRepresentation() {
         return QRepr;
+    }
+
+    @Override
+    public APIQueryConstructor getQueryConstructor() {
+        return QueryConstructor;
+    }
+
+    @Override
+    public void setQueryConstructor(APIQueryConstructor queryConstructor) {
+        QueryConstructor = queryConstructor;
     }
 
     @Override

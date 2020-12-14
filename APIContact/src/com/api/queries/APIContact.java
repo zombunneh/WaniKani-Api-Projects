@@ -11,6 +11,7 @@ import javax.swing.*;
 
 public class APIContact {
     public static final Scanner UserInputScanner = new Scanner(System.in);
+    private static final APIQueryConstructor constructor = new APIQueryConstructor();
 
     private static final String WelcomeMessage = "Please enter a Query Type:";
     private static final String InvalidQueryTypeMessage = "Invalid Query Type. Please enter a valid Query Type:";
@@ -39,6 +40,7 @@ public class APIContact {
         String nextUrl = "";
 
         q = SetQueryType(q);
+        q.setQueryConstructor(constructor);
 
         SetAPIKey(q);
         System.out.println(q.GetAPIKey());
@@ -150,15 +152,38 @@ public class APIContact {
         }
     }
 
+    /**
+     *
+     *
+     *
+     * @param jparse JSONParse object
+     */
     private static void SetFormatQuery(JSONParse jparse)
     {
         System.out.println(SetFormatMessage);
     }
 
+    /**
+     *
+     *
+     *
+     * @throws Exception If graphics window fails to draw
+     */
     private static void createAndShowWindow() throws Exception
     {
         //GUIModel model = new GUIModel();
         //GUIController controller = new GUIController();
         new GUIView();
+    }
+
+    /**
+     *
+     * Verifies the API key provided with the server, checking subscription status to validate use of program
+     *
+     * @param key The API key to validate
+     */
+    private static void verifyAPIKey(String key)
+    {
+
     }
 }
