@@ -17,7 +17,9 @@ public class JSONParse {
 
     private static final String totalCount = "total_count";
     private static final String pageCount = "per_page";
-    private static final String url = "next_url";
+    private static final String url = "url";
+    private static final String nextUrl = "next_url";
+    private static final String resourceID = "id";
     private static final String updateDate = "data_updated_at";
 
     /**
@@ -83,22 +85,24 @@ public class JSONParse {
     {
         int count = 0;
         int countPerPage = 0;
+        String collectionUrl = "";
         String nextUrl = "";
         String date = "";
 
         pageNum++;
 
         JSONArray dataArray = obj.getJSONArray(dataString);
-        System.out.println(dataArray.toString());
+        //System.out.println(dataArray.toString());
 
         JSONObject pagesObject = obj.getJSONObject(pagesString);
 
         //not currently using these variables in this iteration.
         count = obj.getInt(totalCount);
+        collectionUrl = obj.getString(url);
         countPerPage = pagesObject.getInt(pageCount);
-        if(!pagesObject.isNull(url))
+        if(!pagesObject.isNull(nextUrl))
         {
-            nextUrl = pagesObject.getString(url);
+            nextUrl = pagesObject.getString(nextUrl);
         }
         else
         {
@@ -110,6 +114,7 @@ public class JSONParse {
         System.out.println("Amount of results returned: " + count);
         System.out.println("Date updated: " + date);
 
+        // still need to acquire individual data points from objects returned - use FormatResource
         for(int i = 0; i < dataArray.length(); i++)
         {
             JSONObject tempObject = dataArray.getJSONObject(i);
@@ -128,6 +133,12 @@ public class JSONParse {
     private void FormatResource(JSONObject obj)
     {
         String date = "";
+        String resourceUrl = "";
+        String id = "";
+
+        date = obj.getString(updateDate);
+        resourceUrl = obj.getString(url);
+        id = obj.getString(resourceID);
 
         JSONObject dataObject = obj.getJSONObject("data");
         System.out.println(dataObject.toString());
