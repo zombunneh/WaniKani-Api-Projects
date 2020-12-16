@@ -9,10 +9,10 @@ import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 
 public class GUIView {
+    private GUIController controller;
 
     public static final String frameTitle = "WaniKani Data Viewer";
 
-    private JFrame frame;
     private JTextField APIInputField;
     private JLabel APIInputLabel;
     private JButton APIVerifyButton;
@@ -20,8 +20,10 @@ public class GUIView {
     private JComboBox<String> QueryOptions;
     private JComboBox<String> EndpointOptions;
 
-    public GUIView() {
-        frame = new JFrame(frameTitle); // Creating frame
+    public GUIView(GUIController controller) {
+        this.controller = controller;
+
+        JFrame frame = new JFrame(frameTitle); // Creating frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Add components to frame
         frame.add(MainPanel);

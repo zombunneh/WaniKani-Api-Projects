@@ -1,7 +1,11 @@
 package com.api.gui;
 
+import com.api.queries.Query;
+
 public class GUIModel{
     private String APIKey;
+    private Boolean userSubscriptionStatus;
+    private Query query;
 
     public GUIModel()
     {

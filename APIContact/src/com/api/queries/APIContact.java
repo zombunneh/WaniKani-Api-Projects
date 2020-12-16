@@ -116,7 +116,6 @@ public class APIContact {
     {
         GUIModel model = new GUIModel();
         GUIController controller = new GUIController(this, model);
-        //new GUIView(controller);
     }
 
     /**
