@@ -5,6 +5,8 @@ import com.api.queries.QueryType;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 
@@ -13,6 +15,7 @@ public class GUIView {
 
     public static final String frameTitle = "WaniKani Data Viewer";
 
+    private JFrame frame;
     private JTextField APIInputField;
     private JLabel APIInputLabel;
     private JButton APIVerifyButton;
@@ -23,11 +26,25 @@ public class GUIView {
     public GUIView(GUIController controller) {
         this.controller = controller;
 
-        JFrame frame = new JFrame(frameTitle); // Creating frame
+        frame = new JFrame(frameTitle); // Creating frame
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // Add components to frame
         frame.add(MainPanel);
 
+        setComponents();
+
+        setActions();
+
+        frame.setMinimumSize(new Dimension(100, 100));
+        frame.pack(); // Size frame
+        frame.setVisible(true);
+    }
+
+    /**
+     * Sets up the individual components that make up the gui on construction
+     */
+    private void setComponents()
+    {
         // Set up combo box for 4 types of query
         for (QueryType query : QueryType.values()) {
             QueryOptions.addItem(query.toString());
@@ -37,10 +54,23 @@ public class GUIView {
         for (APIEndpoint endpoint : APIEndpoint.values()) {
             EndpointOptions.addItem(endpoint.toString());
         }
+    }
 
-        frame.setMinimumSize(new Dimension(100, 100));
-        frame.pack(); // Size frame
-        frame.setVisible(true);
+    /**
+     * Sets the actions performed by the components of the gui when interacted with
+     * TODO: Verify key format with regex
+     */
+    private void setActions() {
+        APIVerifyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!APIInputField.getText().equals("")) {
+                    controller.onRegisterVerifyButtonClick(APIInputField.getText());
+                } else {
+                    JOptionPane.showMessageDialog(frame.getComponent(0), "Please enter an API Key");
+                }
+            }
+        });
     }
 
     {

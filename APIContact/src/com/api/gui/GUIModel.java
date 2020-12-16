@@ -19,4 +19,20 @@ public class GUIModel{
     public void setAPIKey(String APIKey) {
         this.APIKey = APIKey;
     }
+
+    public Boolean getUserSubscriptionStatus() {
+        return userSubscriptionStatus;
+    }
+
+    public void setUserSubscriptionStatus(Boolean userSubscriptionStatus) {
+        this.userSubscriptionStatus = userSubscriptionStatus;
+    }
+
+    public Query getQuery() {
+        return query;
+    }
+
+    public void setQuery(Query query) {
+        this.query = query;
+    }
 }

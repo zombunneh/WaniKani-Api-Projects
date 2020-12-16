@@ -11,7 +11,6 @@ import javax.swing.*;
 
 public class APIContact {
     public static final Scanner UserInputScanner = new Scanner(System.in);
-    private static final APIQueryConstructor constructor = new APIQueryConstructor();
 
     private static final String WelcomeMessage = "Please enter a Query Type:";
     private static final String InvalidQueryTypeMessage = "Invalid Query Type. Please enter a valid Query Type:";
@@ -101,7 +100,7 @@ public class APIContact {
      *
      * @param jparse JSONParse object
      */
-    private void SetFormatQuery(JSONParse jparse)
+    public void SetFormatQuery(JSONParse jparse)
     {
         System.out.println(SetFormatMessage);
     }
@@ -124,8 +123,8 @@ public class APIContact {
      *
      * @param key The API key to validate
      */
-    private void verifyAPIKey(String key)
+    public Boolean verifyAPIKey(String key)
     {
-
+        return true;
     }
 }

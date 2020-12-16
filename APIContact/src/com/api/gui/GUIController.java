@@ -7,6 +7,13 @@ public class GUIController {
     private GUIModel model;
     private GUIView view;
 
+    /**
+     *
+     *
+     *
+     * @param contact The object which controls API communication
+     * @param model The model that stores program related data
+     */
     public GUIController(APIContact contact, GUIModel model)
     {
         this.contact = contact;
@@ -14,4 +21,19 @@ public class GUIController {
         view = new GUIView(this);
     }
 
+    /**
+     *
+     *
+     *
+     * @param APIKey The API key to verify and store
+     */
+    public void onRegisterVerifyButtonClick(String APIKey)
+    {
+        Boolean verified;
+        verified = contact.verifyAPIKey(APIKey);
+        if(verified)
+        {
+            model.setAPIKey(APIKey);
+        }
+    }
 }
