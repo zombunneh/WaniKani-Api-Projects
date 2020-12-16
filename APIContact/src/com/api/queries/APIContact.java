@@ -22,69 +22,12 @@ public class APIContact {
 
     /**
      *
-     * Main method of program to accept user input in order to construct specific queries to the WaniKani API
-     *
-     * TODO: Eventually overhaul main method and replace with gui
-     *
-     * TODO: check user subscription status and feedback
-     *
-     * TODO: Add-on database for longer term storage of results?
-     *
-     * TODO: Thread application
-     *
-     * @param args NO args need to be supplied
-     */
-    public static void main(String[] args) {
-
-        Query q = null;
-        String nextUrl = "";
-
-        q = SetQueryType(q);
-        q.setQueryConstructor(constructor);
-
-        SetAPIKey(q);
-        System.out.println(q.GetAPIKey());
-
-        SetCategory(q);
-        System.out.println(q.GetEndpoint().toString());
-
-        q.MakeQuery("");
-
-        JSONParse parser = new JSONParse();
-        nextUrl = parser.ReadResponse(q.GetRepresentation());
-
-        if(!nextUrl.equals(""))
-        {
-            while(!nextUrl.equals(""))
-            {
-                q.MakeQuery(nextUrl);
-
-                nextUrl = parser.ReadResponse(q.GetRepresentation());
-            }
-        }
-
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    createAndShowWindow();
-                }
-                catch(Exception e)
-                {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    /**
-     *
      * Sets the type of query to be made, corresponding to the 4 HTTP Verbs (GET PUT POST DELETE)
      *
      * @param q The Query object to modify
      * @return The modified Query object that has been assigned a subclass
      */
-    private static Query SetQueryType(Query q)
+    public Query SetQueryType(Query q)
     {
         String queryTypeInput;
         APIQueryFactory fac = new APIQueryFactory();
@@ -111,7 +54,7 @@ public class APIContact {
      *
      * @param q The Query object to modify
      */
-    private static void SetAPIKey(Query q)
+    public void SetAPIKey(Query q)
     {
         String APIKeyInput;
 
@@ -127,7 +70,7 @@ public class APIContact {
      *
      * @param q The Query object to modify
      */
-    private static void SetCategory(Query q)
+    public void SetCategory(Query q)
     {
         String endpointInput;
 
@@ -158,7 +101,7 @@ public class APIContact {
      *
      * @param jparse JSONParse object
      */
-    private static void SetFormatQuery(JSONParse jparse)
+    private void SetFormatQuery(JSONParse jparse)
     {
         System.out.println(SetFormatMessage);
     }
@@ -169,11 +112,11 @@ public class APIContact {
      *
      * @throws Exception If graphics window fails to draw
      */
-    private static void createAndShowWindow() throws Exception
+    public void createAndShowWindow() throws Exception
     {
-        //GUIModel model = new GUIModel();
-        //GUIController controller = new GUIController();
-        new GUIView();
+        GUIModel model = new GUIModel();
+        GUIController controller = new GUIController(this, model);
+        //new GUIView(controller);
     }
 
     /**
@@ -182,7 +125,7 @@ public class APIContact {
      *
      * @param key The API key to validate
      */
-    private static void verifyAPIKey(String key)
+    private void verifyAPIKey(String key)
     {
 
     }
