@@ -20,7 +20,7 @@ import javax.swing.*;
 public class APILauncher {
     private static APIContact contact;
     private static final APIQueryConstructor constructor = new APIQueryConstructor();
-    
+
     /**
      *
      * Main method of program to accept user input in order to construct specific queries to the WaniKani API

@@ -1,12 +1,13 @@
 package com.api.queries;
 
+import com.api.APILauncher;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 
-class APIContactTest {
+class APILauncherTest {
 
     private static final InputStream defaultStream = System.in;
 
@@ -40,7 +41,7 @@ class APIContactTest {
     @Test
     void CorrectInputs()
     {
-        APIContact.main(null);
+        APILauncher.main(null);
 
         // sleep thread to allow gui to be seen
         try {
