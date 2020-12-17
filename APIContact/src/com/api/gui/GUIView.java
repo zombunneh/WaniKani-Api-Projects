@@ -5,8 +5,6 @@ import com.api.queries.QueryType;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 
@@ -23,6 +21,9 @@ public class GUIView {
     private JComboBox<String> QueryOptions;
     private JComboBox<String> EndpointOptions;
     private JButton QueryButton;
+    private JTable QueryResultsTable;
+    private JPanel TablePanel;
+    private JScrollPane ResultsTableScroller;
 
     public GUIView(GUIController controller) {
         this.controller = controller;
@@ -42,10 +43,8 @@ public class GUIView {
     }
 
     /**
-     *
      * Sets up the individual components that make up the gui on construction.
      * All components aside from those related to API key are disabled until API key is verified
-     *
      */
     private void setComponents() {
         // Set up combo box for 4 types of query
@@ -65,14 +64,10 @@ public class GUIView {
     }
 
     /**
-     *
      * Enables all components to be usable after the API key is verified
-     *
      */
-    public void enableComponents()
-    {
-        for(Component component : MainPanel.getComponents())
-        {
+    public void enableComponents() {
+        for (Component component : MainPanel.getComponents()) {
             component.setEnabled(true);
         }
     }
@@ -82,14 +77,11 @@ public class GUIView {
      * TODO: Verify key format with regex
      */
     private void setActions() {
-        APIVerifyButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!APIInputField.getText().equals("")) {
-                    controller.onRegisterVerifyButtonClick(APIInputField.getText());
-                } else {
-                    JOptionPane.showMessageDialog(frame.getComponent(0), "Please enter an API Key");
-                }
+        APIVerifyButton.addActionListener(e -> {
+            if (!APIInputField.getText().equals("")) {
+                controller.onRegisterVerifyButtonClick(APIInputField.getText());
+            } else {
+                JOptionPane.showMessageDialog(frame.getComponent(0), "Please enter an API Key");
             }
         });
     }
@@ -110,28 +102,36 @@ public class GUIView {
      */
     private void $$$setupUI$$$() {
         MainPanel = new JPanel();
-        MainPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(3, 3, new Insets(5, 5, 5, 5), -1, -1));
+        MainPanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(4, 4, new Insets(5, 5, 5, 5), -1, -1));
         MainPanel.setBackground(new Color(-1245697));
         MainPanel.setToolTipText(this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "QueryTypeLabel"));
         APIInputLabel = new JLabel();
         this.$$$loadLabelText$$$(APIInputLabel, this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "APIKeyLabel"));
         MainPanel.add(APIInputLabel, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final com.intellij.uiDesigner.core.Spacer spacer1 = new com.intellij.uiDesigner.core.Spacer();
-        MainPanel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        MainPanel.add(spacer1, new com.intellij.uiDesigner.core.GridConstraints(3, 0, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_VERTICAL, 1, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         APIInputField = new JTextField();
-        MainPanel.add(APIInputField, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        MainPanel.add(APIInputField, new com.intellij.uiDesigner.core.GridConstraints(0, 1, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_WEST, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         APIVerifyButton = new JButton();
         this.$$$loadButtonText$$$(APIVerifyButton, this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "APIButton"));
-        MainPanel.add(APIVerifyButton, new com.intellij.uiDesigner.core.GridConstraints(0, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        MainPanel.add(APIVerifyButton, new com.intellij.uiDesigner.core.GridConstraints(0, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         QueryOptions = new JComboBox();
         QueryOptions.setToolTipText(this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "QueryTypeLabel"));
         MainPanel.add(QueryOptions, new com.intellij.uiDesigner.core.GridConstraints(1, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         EndpointOptions = new JComboBox();
         EndpointOptions.setToolTipText(this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "EndpointTypeLabel"));
-        MainPanel.add(EndpointOptions, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        MainPanel.add(EndpointOptions, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 2, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         QueryButton = new JButton();
         this.$$$loadButtonText$$$(QueryButton, this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "QueryMakeButton"));
-        MainPanel.add(QueryButton, new com.intellij.uiDesigner.core.GridConstraints(1, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        MainPanel.add(QueryButton, new com.intellij.uiDesigner.core.GridConstraints(1, 3, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        TablePanel = new JPanel();
+        TablePanel.setLayout(new com.intellij.uiDesigner.core.GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        MainPanel.add(TablePanel, new com.intellij.uiDesigner.core.GridConstraints(2, 0, 1, 4, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        ResultsTableScroller = new JScrollPane();
+        TablePanel.add(ResultsTableScroller, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        QueryResultsTable = new JTable();
+        QueryResultsTable.setFillsViewportHeight(false);
+        ResultsTableScroller.setViewportView(QueryResultsTable);
         APIInputLabel.setLabelFor(APIInputField);
     }
 
