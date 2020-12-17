@@ -71,7 +71,10 @@ public class GUIView {
      */
     public void enableComponents()
     {
-
+        for(Component component : MainPanel.getComponents())
+        {
+            component.setEnabled(true);
+        }
     }
 
     /**
