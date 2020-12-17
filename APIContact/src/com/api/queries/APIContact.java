@@ -19,6 +19,8 @@ public class APIContact {
     public static final String InvalidCategoryMessage = "Invalid Category. Please enter a valid Category";
     public static final String SetFormatMessage = "Please choose a data format:";
 
+    //TODO: Refactor class to function with gui and controller
+
     /**
      *
      * Sets the type of query to be made, corresponding to the 4 HTTP Verbs (GET PUT POST DELETE)

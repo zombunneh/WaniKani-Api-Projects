@@ -34,6 +34,7 @@ public class GUIController {
         if(verified)
         {
             model.setAPIKey(APIKey);
+            view.enableComponents();
         }
     }
 }

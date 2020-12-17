@@ -22,6 +22,7 @@ public class GUIView {
     private JPanel MainPanel;
     private JComboBox<String> QueryOptions;
     private JComboBox<String> EndpointOptions;
+    private JButton QueryButton;
 
     public GUIView(GUIController controller) {
         this.controller = controller;
@@ -41,19 +42,36 @@ public class GUIView {
     }
 
     /**
-     * Sets up the individual components that make up the gui on construction
+     *
+     * Sets up the individual components that make up the gui on construction.
+     * All components aside from those related to API key are disabled until API key is verified
+     *
      */
-    private void setComponents()
-    {
+    private void setComponents() {
         // Set up combo box for 4 types of query
+        QueryOptions.setEnabled(false);
         for (QueryType query : QueryType.values()) {
             QueryOptions.addItem(query.toString());
         }
 
+
         // Set up combo box for endpoints
+        EndpointOptions.setEnabled(false);
         for (APIEndpoint endpoint : APIEndpoint.values()) {
             EndpointOptions.addItem(endpoint.toString());
         }
+
+        QueryButton.setEnabled(false);
+    }
+
+    /**
+     *
+     * Enables all components to be usable after the API key is verified
+     *
+     */
+    public void enableComponents()
+    {
+
     }
 
     /**
@@ -108,6 +126,9 @@ public class GUIView {
         EndpointOptions = new JComboBox();
         EndpointOptions.setToolTipText(this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "EndpointTypeLabel"));
         MainPanel.add(EndpointOptions, new com.intellij.uiDesigner.core.GridConstraints(1, 1, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_NONE, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        QueryButton = new JButton();
+        this.$$$loadButtonText$$$(QueryButton, this.$$$getMessageFromBundle$$$("com/api/res/GUIProperties", "QueryMakeButton"));
+        MainPanel.add(QueryButton, new com.intellij.uiDesigner.core.GridConstraints(1, 2, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_HORIZONTAL, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         APIInputLabel.setLabelFor(APIInputField);
     }
 
