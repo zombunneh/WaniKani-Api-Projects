@@ -1,6 +1,8 @@
 package com.api.gui;
 
+import com.api.json.JSONParse;
 import com.api.queries.APIContact;
+import com.api.queries.APIQueryFactory;
 
 public class GUIController {
     private APIContact contact;
@@ -35,6 +37,38 @@ public class GUIController {
         {
             model.setAPIKey(APIKey);
             view.enableComponents();
+        }
+    }
+
+    public void onRegisterMakeQueryButtonClick(String query, String endpoint)
+    {
+        // Create query object in model
+        APIQueryFactory fac = new APIQueryFactory();
+        model.setQuery(fac.CreateQueryType(query));
+        // Set endpoint of query
+        contact.SetCategory(model.getQuery(), endpoint);
+        // Set API key for query
+        model.getQuery().setAPIKey(model.getAPIKey());
+        // Make query
+        model.getQuery().MakeQuery("");
+        // Handle response
+        parseResponse();
+    }
+
+    private void parseResponse()
+    {
+        String nextUrl;
+        JSONParse parser = new JSONParse();
+        nextUrl = parser.ReadResponse(model.getQuery().getRepresentation());
+
+        if(!nextUrl.equals(""))
+        {
+            while(!nextUrl.equals(""))
+            {
+                model.getQuery().MakeQuery(nextUrl);
+
+                nextUrl = parser.ReadResponse(model.getQuery().getRepresentation());
+            }
         }
     }
 }

@@ -83,7 +83,7 @@
               <component id="72f28" class="javax.swing.JTable" binding="QueryResultsTable">
                 <constraints/>
                 <properties>
-                  <fillsViewportHeight value="false"/>
+                  <fillsViewportHeight value="true"/>
                 </properties>
               </component>
             </children>

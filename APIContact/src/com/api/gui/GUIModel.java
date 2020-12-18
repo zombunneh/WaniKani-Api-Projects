@@ -9,7 +9,7 @@ public class GUIModel{
 
     public GUIModel()
     {
-
+        query = null;
     }
 
     public String getAPIKey() {

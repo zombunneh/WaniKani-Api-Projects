@@ -6,6 +6,7 @@ import com.api.queries.QueryType;
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GUIView {
@@ -61,6 +62,9 @@ public class GUIView {
         }
 
         QueryButton.setEnabled(false);
+
+        // Set up table for results
+        TablePanel.setEnabled(false);
     }
 
     /**
@@ -78,11 +82,15 @@ public class GUIView {
      */
     private void setActions() {
         APIVerifyButton.addActionListener(e -> {
-            if (!APIInputField.getText().equals("")) {
+            if(!APIInputField.getText().equals("")) {
                 controller.onRegisterVerifyButtonClick(APIInputField.getText());
             } else {
                 JOptionPane.showMessageDialog(frame.getComponent(0), "Please enter an API Key");
             }
+        });
+
+        QueryButton.addActionListener(e -> {
+            controller.onRegisterMakeQueryButtonClick((String) QueryOptions.getSelectedItem(), (String) EndpointOptions.getSelectedItem());
         });
     }
 
@@ -130,7 +138,7 @@ public class GUIView {
         ResultsTableScroller = new JScrollPane();
         TablePanel.add(ResultsTableScroller, new com.intellij.uiDesigner.core.GridConstraints(0, 0, 1, 1, com.intellij.uiDesigner.core.GridConstraints.ANCHOR_CENTER, com.intellij.uiDesigner.core.GridConstraints.FILL_BOTH, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_CAN_SHRINK | com.intellij.uiDesigner.core.GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         QueryResultsTable = new JTable();
-        QueryResultsTable.setFillsViewportHeight(false);
+        QueryResultsTable.setFillsViewportHeight(true);
         ResultsTableScroller.setViewportView(QueryResultsTable);
         APIInputLabel.setLabelFor(APIInputField);
     }

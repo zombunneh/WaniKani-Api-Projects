@@ -36,7 +36,7 @@ public class APILauncher {
      * @param args NO args need to be supplied
      */
     public static void main(String[] args) {
-        contact = new APIContact();
+        /*contact = new APIContact();
         Query q = null;
         String nextUrl = "";
 
@@ -62,7 +62,7 @@ public class APILauncher {
 
                 nextUrl = parser.ReadResponse(q.GetRepresentation());
             }
-        }
+        }*/
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override

@@ -10,29 +10,29 @@ public abstract class Query implements QueryInterface{
     private APIQueryConstructor QueryConstructor;
 
     @Override
-    public void SetAPIKey(String key)
+    public void setAPIKey(String key)
     {
         APIKey = key;
     }
 
     @Override
-    public String GetAPIKey() {
+    public String getAPIKey() {
         return APIKey;
     }
 
     @Override
-    public void SetEndpoint(APIEndpoint endpoint)
+    public void setEndpoint(APIEndpoint endpoint)
     {
         AEndpoint = endpoint;
     }
 
     @Override
-    public APIEndpoint GetEndpoint() {
+    public APIEndpoint getEndpoint() {
         return AEndpoint;
     }
 
     @Override
-    public Representation GetRepresentation() {
+    public Representation getRepresentation() {
         return QRepr;
     }
 
