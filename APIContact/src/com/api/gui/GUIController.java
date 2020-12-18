@@ -72,18 +72,28 @@ public class GUIController {
      */
     private void parseResponse()
     {
-        //String nextUrl;
+        // Pass initial query response to parser
         QueryResponse response;
         JSONParse parser = new JSONParse();
         response = parser.ReadResponse(model.getQuery().getRepresentation());
-
+        // Calculate the number of pages in the response
+        int numPages = response.collectionCount / response.collectionCountPerPage;
+        if(response.collectionCountPerPage % response.collectionCount != 0)
+            numPages++;
+        // Initialise the array in GUIModel with correct number of indexes
+        model.initialiseResponseArray(numPages);
+        // Keep making queries to retrieve any following pages
+        int currentPage = 0;
         if(!response.nextUrl.equals(""))
         {
             while(!response.nextUrl.equals(""))
             {
+                model.addResponseArray(response, currentPage);
+
                 model.getQuery().MakeQuery(response.nextUrl);
 
-                //nextUrl = parser.ReadResponse(model.getQuery().getRepresentation());
+                response = parser.ReadResponse(model.getQuery().getRepresentation());
+                currentPage++;
             }
         }
     }

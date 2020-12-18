@@ -117,7 +117,6 @@ public class JSONParse {
 
         QueryResponse response = new QueryResponse(count, countPerPage, nextUrl, collectionUrl, date);
 
-        // still need to acquire individual data points from objects returned - use FormatResource
         for(int i = 0; i < dataArray.length(); i++)
         {
             JSONObject tempObject = dataArray.getJSONObject(i);
