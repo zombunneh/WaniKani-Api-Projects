@@ -1,6 +1,7 @@
 package com.api.gui;
 
 import com.api.json.JSONParse;
+import com.api.json.QueryResponse;
 import com.api.queries.APIContact;
 import com.api.queries.APIQueryFactory;
 
@@ -68,9 +69,9 @@ public class GUIController {
     private void parseResponse()
     {
         String nextUrl;
+        QueryResponse response;
         JSONParse parser = new JSONParse();
-        nextUrl = parser.ReadResponse(model.getQuery().getRepresentation());
-
+        response = parser.ReadResponse(model.getQuery().getRepresentation());
         if(!nextUrl.equals(""))
         {
             while(!nextUrl.equals(""))

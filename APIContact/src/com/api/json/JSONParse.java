@@ -28,13 +28,14 @@ public class JSONParse {
      * Might convert next url to class attribute when threaded
      *
      * @param repr The Representation object to read from
+     * @return Response object containing the data from the JSONObject collection or resource
      */
-    public String ReadResponse(Representation repr)
+    public QueryResponse ReadResponse(Representation repr)
     {
         JSONObject object = null;
         InputStream is;
         String objectType;
-        String nextUrl = "";
+        QueryResponse response;
 
         //get the json data from representation object into readable JSONObject
         try
@@ -59,19 +60,18 @@ public class JSONParse {
         // handle the json response according to response type
         if(objectType.equals("collection") || objectType.equals("report"))
         {
-            nextUrl = FormatCollection(object);
+            response = FormatCollection(object);
         }
         else if(objectType.equals("resource"))
         {
-            FormatResource(object);
-            nextUrl = "";
+            response = FormatResource(object);
         }
         else
         {
             throw new IllegalArgumentException("Unable to determine resource type " + objectType);
         }
 
-        return nextUrl;
+        return response;
     }
 
     /**
@@ -80,8 +80,9 @@ public class JSONParse {
      * TODO: Implement check for next page of results, return non-empty string to query for next page, format date received - maybe cache data
      *
      * @param obj The object containing the data to be formatted
+     * @return Response object containing the data from the JSONObject collection
      */
-    private String FormatCollection(JSONObject obj)
+    private QueryResponse FormatCollection(JSONObject obj)
     {
         int count = 0;
         int countPerPage = 0;
@@ -114,15 +115,17 @@ public class JSONParse {
         System.out.println("Amount of results returned: " + count);
         System.out.println("Date updated: " + date);
 
+        QueryResponse response = new QueryResponse(count, countPerPage, nextUrl, collectionUrl, date);
+
         // still need to acquire individual data points from objects returned - use FormatResource
         for(int i = 0; i < dataArray.length(); i++)
         {
             JSONObject tempObject = dataArray.getJSONObject(i);
             System.out.println(tempObject.toString());
-            FormatResource(tempObject);
+            FormatResource(tempObject, response);
         }
 
-        return nextUrl;
+        return response;
     }
 
     /**
@@ -130,8 +133,9 @@ public class JSONParse {
      *
      *
      * @param obj The object containing the data to be formatted
+     * @return Response object containing the data from the JSONObject resource
      */
-    private void FormatResource(JSONObject obj)
+    private QueryResponse FormatResource(JSONObject obj)
     {
         String date = "";
         String resourceUrl = "";
@@ -143,6 +147,31 @@ public class JSONParse {
 
         JSONObject dataObject = obj.getJSONObject("data");
         System.out.println(dataObject.toString());
+
+        return new QueryResponse(date, resourceUrl, id, dataObject);
+    }
+
+    /**
+     *
+     *
+     *
+     * @param obj The object containing the data to be formatted
+     * @param response The response object from the parent collection
+     */
+    private void FormatResource(JSONObject obj, QueryResponse response)
+    {
+        String date = "";
+        String resourceUrl = "";
+        String id = "";
+
+        date = obj.getString(updateDate);
+        resourceUrl = obj.getString(url);
+        id = obj.getString(resourceID);
+
+        JSONObject dataObject = obj.getJSONObject("data");
+        System.out.println(dataObject.toString());
+
+        response.addResource(date, resourceUrl, id, dataObject);
     }
 
     private void FormatCSV()
@@ -166,96 +195,3 @@ public class JSONParse {
     }
 }
 
-/**
- * This class for internal use to represent the parsed response to return to calling classes
- */
-class Response {
-    Boolean isCollection = false;
-
-    String collectionDate;
-    int collectionCount;
-    int collectionCountPerPage;
-    String nextUrl;
-    String collectionUrl;
-
-    int resourceCount = 0;
-    String[] date;
-    String[] resourceUrl;
-    String[] id;
-    JSONObject[] jObject;
-
-    /**
-     *
-     * Constructor for a single resource response
-     *
-     * @param date The date the resource was last updated
-     * @param resourceUrl The url of the resource returned
-     * @param id The id of the resource
-     * @param jObject The JSONObject containing the resource specific information
-     */
-    Response(String date, String resourceUrl, String id, JSONObject jObject)
-    {
-        // Set type of class to resource
-        isCollection = false;
-        // Initialise resource arrays to size 1
-        this.date = new String[1];
-        this.resourceUrl = new String[1];
-        this.id = new String[1];
-        this.jObject = new JSONObject[1];
-        // Initialise resource specific variables
-        this.date[0] = date;
-        this.resourceUrl[0] = resourceUrl;
-        this.id[0] = id;
-        this.jObject[0] = jObject;
-    }
-
-    /**
-     *
-     * Constructor for a collection response
-     *
-     * @param count The amount of data objects returned
-     * @param countPerPage The amount of objects per page
-     * @param nextUrl The url, if any, of the next page of results
-     * @param collectionUrl The url of the collection object returned
-     * @param date The date the resource was last updated
-     */
-    Response(int count, int countPerPage, String nextUrl, String collectionUrl, String date)
-    {
-        // Set type of class to collection
-        isCollection = true;
-        // Initialise collection specific variables
-        collectionCount = count;
-        collectionCountPerPage = countPerPage;
-        this.nextUrl = nextUrl;
-        this.collectionUrl = collectionUrl;
-        collectionDate = date;
-        // Initialise resource arrays to size of response
-        this.date = new String[count];
-        this.resourceUrl = new String[count];
-        this.id = new String[count];
-        this.jObject = new JSONObject[count];
-    }
-
-    /**
-     *
-     * Adds a resource to a collection type response object
-     *
-     * @param date The date the resource was last updated
-     * @param resourceUrl The url of the resource returned
-     * @param id The id of the resource
-     * @param jObject The JSONObject containing the resource specific information
-     */
-    public void addResource(String date, String resourceUrl, String id, JSONObject jObject)
-    {
-        if(isCollection)
-        {
-            // Add resource variables to current index
-            this.date[resourceCount] = date;
-            this.resourceUrl[resourceCount] = resourceUrl;
-            this.id[resourceCount] = id;
-            this.jObject[resourceCount] = jObject;
-            // Increment count / index for next resource
-            resourceCount++;
-        }
-    }
-}
