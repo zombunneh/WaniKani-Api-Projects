@@ -49,6 +49,8 @@ public abstract class Query implements QueryInterface{
     @Override
     public void MakeQuery(String url)
     {
+        System.out.println(QType.toString() + APIKey + AEndpoint.toString());
+
         if(url.equals(""))
             QRepr = QueryConstructor.MakeAPICall(APIKey, QType, AEndpoint);
         else

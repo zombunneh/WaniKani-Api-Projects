@@ -82,16 +82,14 @@ public class GUIView {
      */
     private void setActions() {
         APIVerifyButton.addActionListener(e -> {
-            if(!APIInputField.getText().equals("")) {
+            if (!APIInputField.getText().equals("")) {
                 controller.onRegisterVerifyButtonClick(APIInputField.getText());
             } else {
                 JOptionPane.showMessageDialog(frame.getComponent(0), "Please enter an API Key");
             }
         });
 
-        QueryButton.addActionListener(e -> {
-            controller.onRegisterMakeQueryButtonClick((String) QueryOptions.getSelectedItem(), (String) EndpointOptions.getSelectedItem());
-        });
+        QueryButton.addActionListener(e -> controller.onRegisterMakeQueryButtonClick((String) QueryOptions.getSelectedItem(), (String) EndpointOptions.getSelectedItem()));
     }
 
     {

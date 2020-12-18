@@ -3,6 +3,7 @@ package com.api.gui;
 import com.api.json.JSONParse;
 import com.api.json.QueryResponse;
 import com.api.queries.APIContact;
+import com.api.queries.APIQueryConstructor;
 import com.api.queries.APIQueryFactory;
 
 public class GUIController {
@@ -53,6 +54,9 @@ public class GUIController {
         // Create query object in model
         APIQueryFactory fac = new APIQueryFactory();
         model.setQuery(fac.CreateQueryType(query));
+        // Set query constructor for query object
+        final APIQueryConstructor constructor = new APIQueryConstructor();
+        model.getQuery().setQueryConstructor(constructor);
         // Set endpoint of query
         contact.SetCategory(model.getQuery(), endpoint);
         // Set API key for query
@@ -68,17 +72,18 @@ public class GUIController {
      */
     private void parseResponse()
     {
-        String nextUrl;
+        //String nextUrl;
         QueryResponse response;
         JSONParse parser = new JSONParse();
         response = parser.ReadResponse(model.getQuery().getRepresentation());
-        if(!nextUrl.equals(""))
-        {
-            while(!nextUrl.equals(""))
-            {
-                model.getQuery().MakeQuery(nextUrl);
 
-                nextUrl = parser.ReadResponse(model.getQuery().getRepresentation());
+        if(!response.nextUrl.equals(""))
+        {
+            while(!response.nextUrl.equals(""))
+            {
+                model.getQuery().MakeQuery(response.nextUrl);
+
+                //nextUrl = parser.ReadResponse(model.getQuery().getRepresentation());
             }
         }
     }

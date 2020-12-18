@@ -16,29 +16,28 @@ import org.json.JSONObject;
  * This class for internal use to represent the parsed response to return to calling classes
  */
 public class QueryResponse {
-    Boolean isCollection = false;
+    public Boolean isCollection = false;
 
-    String collectionDate;
-    int collectionCount;
-    int collectionCountPerPage;
-    String nextUrl;
-    String collectionUrl;
+    public String collectionDate;
+    public int collectionCount;
+    public int collectionCountPerPage;
+    public String nextUrl;
+    public String collectionUrl;
 
-    int resourceCount = 0;
-    String[] date;
-    String[] resourceUrl;
-    String[] id;
-    JSONObject[] jObject;
+    public int resourceCount = 0;
+    public String[] date;
+    public String[] resourceUrl;
+    public String[] id;
+    public JSONObject[] jObject;
 
     /**
      * Constructor for a single resource response
-     *
-     * @param date        The date the resource was last updated
+     *  @param date        The date the resource was last updated
      * @param resourceUrl The url of the resource returned
      * @param id          The id of the resource
      * @param jObject     The JSONObject containing the resource specific information
      */
-    QueryResponse(String date, String resourceUrl, String id, JSONObject jObject) {
+    QueryResponse(String date, String resourceUrl, int id, JSONObject jObject) {
         // Set type of class to resource
         isCollection = false;
         // Initialise resource arrays to size 1
@@ -80,13 +79,12 @@ public class QueryResponse {
 
     /**
      * Adds a resource to a collection type response object
-     *
-     * @param date        The date the resource was last updated
+     *  @param date        The date the resource was last updated
      * @param resourceUrl The url of the resource returned
      * @param id          The id of the resource
      * @param jObject     The JSONObject containing the resource specific information
      */
-    public void addResource(String date, String resourceUrl, String id, JSONObject jObject) {
+    public void addResource(String date, String resourceUrl, int id, JSONObject jObject) {
         if (isCollection) {
             // Add resource variables to current index
             this.date[resourceCount] = date;

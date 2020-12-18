@@ -36,8 +36,8 @@ public class APILauncher {
      * @param args NO args need to be supplied
      */
     public static void main(String[] args) {
-        /*contact = new APIContact();
-        Query q = null;
+        contact = new APIContact();
+        /*Query q = null;
         String nextUrl = "";
 
         q = contact.SetQueryType(q);

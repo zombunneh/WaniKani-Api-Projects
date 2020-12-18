@@ -93,14 +93,13 @@ public class JSONParse {
         pageNum++;
 
         JSONArray dataArray = obj.getJSONArray(dataString);
-        //System.out.println(dataArray.toString());
 
         JSONObject pagesObject = obj.getJSONObject(pagesString);
 
-        //not currently using these variables in this iteration.
         count = obj.getInt(totalCount);
         collectionUrl = obj.getString(url);
         countPerPage = pagesObject.getInt(pageCount);
+
         if(!pagesObject.isNull(nextUrl))
         {
             nextUrl = pagesObject.getString(nextUrl);
@@ -109,6 +108,7 @@ public class JSONParse {
         {
             nextUrl = "";
         }
+
         date = obj.getString(updateDate);
 
         System.out.println("Page: " + pageNum);
@@ -139,11 +139,11 @@ public class JSONParse {
     {
         String date = "";
         String resourceUrl = "";
-        String id = "";
+        int id;
 
         date = obj.getString(updateDate);
         resourceUrl = obj.getString(url);
-        id = obj.getString(resourceID);
+        id = obj.getInt(resourceID);
 
         JSONObject dataObject = obj.getJSONObject("data");
         System.out.println(dataObject.toString());
@@ -162,11 +162,11 @@ public class JSONParse {
     {
         String date = "";
         String resourceUrl = "";
-        String id = "";
+        int id;
 
         date = obj.getString(updateDate);
         resourceUrl = obj.getString(url);
-        id = obj.getString(resourceID);
+        id = obj.getInt(resourceID);
 
         JSONObject dataObject = obj.getJSONObject("data");
         System.out.println(dataObject.toString());
