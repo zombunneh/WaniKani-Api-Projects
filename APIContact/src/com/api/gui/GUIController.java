@@ -40,6 +40,13 @@ public class GUIController {
         }
     }
 
+    /**
+     *
+     *
+     *
+     * @param query
+     * @param endpoint
+     */
     public void onRegisterMakeQueryButtonClick(String query, String endpoint)
     {
         // Create query object in model
@@ -55,6 +62,9 @@ public class GUIController {
         parseResponse();
     }
 
+    /**
+     *
+     */
     private void parseResponse()
     {
         String nextUrl;
