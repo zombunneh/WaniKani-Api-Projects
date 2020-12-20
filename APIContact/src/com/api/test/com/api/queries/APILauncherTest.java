@@ -52,12 +52,6 @@ class APILauncherTest {
     }
 
     @Test
-    void IncorrectQueryType()
-    {
-        //System.setIn();
-    }
-
-    @Test
     void IncorrectAPIKey()
     {
 

@@ -1,8 +1,6 @@
 package com.api.gui;
 
 import com.api.json.QueryResponse;
-import com.api.queries.APIQueryConstructor;
-import com.api.queries.Query;
 
 public class GUIModel{
     private String APIKey;

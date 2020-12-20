@@ -84,11 +84,11 @@ public class JSONParse {
      */
     private QueryResponse FormatCollection(JSONObject obj)
     {
-        int count = 0;
-        int countPerPage = 0;
-        String collectionUrl = "";
+        int count;
+        int countPerPage;
+        String collectionUrl;
         String nextUrl = "";
-        String date = "";
+        String date;
 
         pageNum++;
 
@@ -136,8 +136,8 @@ public class JSONParse {
      */
     private QueryResponse FormatResource(JSONObject obj)
     {
-        String date = "";
-        String resourceUrl = "";
+        String date;
+        String resourceUrl;
         int id;
 
         date = obj.getString(updateDate);
@@ -159,8 +159,8 @@ public class JSONParse {
      */
     private void FormatResource(JSONObject obj, QueryResponse response)
     {
-        String date = "";
-        String resourceUrl = "";
+        String date;
+        String resourceUrl;
         int id;
 
         date = obj.getString(updateDate);
