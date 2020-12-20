@@ -53,12 +53,12 @@ public class GUIController {
     {
         // Create query object in model
         APIQueryFactory fac = new APIQueryFactory();
-        model.setQuery(fac.CreateQueryType(query));
+        contact.setQueryType(query);
         // Set query constructor for query object
         final APIQueryConstructor constructor = new APIQueryConstructor();
         model.getQuery().setQueryConstructor(constructor);
         // Set endpoint of query
-        contact.SetCategory(model.getQuery(), endpoint);
+        contact.setCategory(model.getQuery(), endpoint);
         // Set API key for query
         model.getQuery().setAPIKey(model.getAPIKey());
         // Make query

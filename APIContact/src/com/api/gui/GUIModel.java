@@ -1,18 +1,18 @@
 package com.api.gui;
 
 import com.api.json.QueryResponse;
+import com.api.queries.APIQueryConstructor;
 import com.api.queries.Query;
 
 public class GUIModel{
     private String APIKey;
     private Boolean userSubscriptionStatus;
-    private Query query;
     private QueryResponse[] responses;
     private int numPages;
 
     public GUIModel()
     {
-        query = null;
+
     }
 
     public String getAPIKey() {
@@ -31,14 +31,6 @@ public class GUIModel{
         this.userSubscriptionStatus = userSubscriptionStatus;
     }
 
-    public Query getQuery() {
-        return query;
-    }
-
-    public void setQuery(Query query) {
-        this.query = query;
-    }
-
     public void initialiseResponseArray(int pages)
     {
         responses = new QueryResponse[pages];
@@ -47,6 +39,11 @@ public class GUIModel{
 
     public void addResponseArray(QueryResponse response, int pageNum)
     {
+        responses[pageNum] = response;
+    }
 
+    public QueryResponse getResponseAtIndex(int index)
+    {
+        return responses[index];
     }
 }

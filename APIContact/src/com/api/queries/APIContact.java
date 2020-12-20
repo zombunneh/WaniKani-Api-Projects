@@ -16,81 +16,65 @@ public class APIContact {
     public static final String InvalidCategoryMessage = "Invalid Category. Please enter a valid Category";
     public static final String SetFormatMessage = "Please choose a data format:";
 
-    //TODO: Refactor class to function with gui and controller
+    private Query query;
+
+    public APIContact()
+    {
+        query = null;
+    }
+
+    public Query getQuery() {
+        return query;
+    }
+
+    public void setQuery(Query query) {
+        this.query = query;
+    }
 
     /**
      *
      * Sets the type of query to be made, corresponding to the 4 HTTP Verbs (GET PUT POST DELETE)
      *
-     * @param q The Query object to modify
-     * @return The modified Query object that has been assigned a subclass
+     * @return True if query type successfully set, false if not
      */
-    public Query SetQueryType(Query q, String queryTypeInput)
+    public Boolean setQueryType(String queryTypeInput)
     {
-        //String queryTypeInput;
         APIQueryFactory fac = new APIQueryFactory();
 
-        //System.out.println(WelcomeMessage);
+        query = fac.CreateQueryType(queryTypeInput);
 
-        while(q == null) {
-            //queryTypeInput = UserInputScanner.nextLine();
-
-            q = fac.CreateQueryType(queryTypeInput);
-
-            if(q == null)
-            {
-                System.out.println(InvalidQueryTypeMessage);
-            }
-        }
-
-        return q;
+        return query != null;
     }
 
     /**
      *
      * Sets the API key of the Query object supplied
      *
-     * @param q The Query object to modify
+     * @param APIKey The API Key to set
      */
-    public void SetAPIKey(Query q)
+    public void setAPIKey(String APIKey)
     {
-        String APIKeyInput;
-
-        System.out.println(SetAPIKeyMessage);
-
-        APIKeyInput = UserInputScanner.nextLine();
-        q.setAPIKey(APIKeyInput);
+        query.setAPIKey(APIKey);
     }
 
     /**
      *
      * Sets the Endpoint of the Query object supplied
      *
-     * @param q The Query object to modify
+     * @param endpointInput The endpoint being set
+     * @return True if category is successfully set, false if not
      */
-    public void SetCategory(Query q, String endpointInput)
+    public Boolean setCategory(String endpointInput)
     {
-        //String endpointInput;
-
-       //System.out.println(SetCategoryMessage);
-
-       // endpointInput = UserInputScanner.nextLine();
-
-        while(q.getEndpoint() == null)
+        for (APIEndpoint e : APIEndpoint.values())
         {
-            for (APIEndpoint e : APIEndpoint.values())
+            if (endpointInput.equalsIgnoreCase(e.toString()))
             {
-                if (endpointInput.equalsIgnoreCase(e.toString()))
-                {
-                    q.setEndpoint(e);
-                }
-            }
-
-            if(q.getEndpoint() == null)
-            {
-                System.out.println(InvalidCategoryMessage);
+                query.setEndpoint(e);
             }
         }
+
+        return query.getEndpoint() != null;
     }
 
     /**
@@ -99,7 +83,7 @@ public class APIContact {
      *
      * @param jparse JSONParse object
      */
-    public void SetFormatQuery(JSONParse jparse)
+    public void setFormatQuery(JSONParse jparse)
     {
         System.out.println(SetFormatMessage);
     }
