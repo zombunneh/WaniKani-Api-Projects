@@ -27,7 +27,7 @@ public class QueryResponse {
     public int resourceCount = 0;
     public String[] date;
     public String[] resourceUrl;
-    public String[] id;
+    public int[] id;
     public JSONObject[] jObject;
 
     /**
@@ -43,7 +43,7 @@ public class QueryResponse {
         // Initialise resource arrays to size 1
         this.date = new String[1];
         this.resourceUrl = new String[1];
-        this.id = new String[1];
+        this.id = new int[1];
         this.jObject = new JSONObject[1];
         // Initialise resource specific variables
         this.date[0] = date;
@@ -73,7 +73,7 @@ public class QueryResponse {
         // Initialise resource arrays to size of response
         this.date = new String[count];
         this.resourceUrl = new String[count];
-        this.id = new String[count];
+        this.id = new int[count];
         this.jObject = new JSONObject[count];
     }
 

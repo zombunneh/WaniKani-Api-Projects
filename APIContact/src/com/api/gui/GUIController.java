@@ -54,15 +54,12 @@ public class GUIController {
         // Create query object in model
         APIQueryFactory fac = new APIQueryFactory();
         contact.setQueryType(query);
-        // Set query constructor for query object
-        final APIQueryConstructor constructor = new APIQueryConstructor();
-        model.getQuery().setQueryConstructor(constructor);
         // Set endpoint of query
-        contact.setCategory(model.getQuery(), endpoint);
+        contact.setCategory(endpoint);
         // Set API key for query
-        model.getQuery().setAPIKey(model.getAPIKey());
+        contact.setAPIKey(model.getAPIKey());
         // Make query
-        model.getQuery().MakeQuery("");
+        contact.getQuery().MakeQuery("");
         // Handle response
         parseResponse();
     }
@@ -75,7 +72,7 @@ public class GUIController {
         // Pass initial query response to parser
         QueryResponse response;
         JSONParse parser = new JSONParse();
-        response = parser.ReadResponse(model.getQuery().getRepresentation());
+        response = parser.ReadResponse(contact.getQuery().getRepresentation());
         // Calculate the number of pages in the response
         int numPages = response.collectionCount / response.collectionCountPerPage;
         if(response.collectionCountPerPage % response.collectionCount != 0)
@@ -90,9 +87,9 @@ public class GUIController {
             {
                 model.addResponseArray(response, currentPage);
 
-                model.getQuery().MakeQuery(response.nextUrl);
+                contact.getQuery().MakeQuery(response.nextUrl);
 
-                response = parser.ReadResponse(model.getQuery().getRepresentation());
+                response = parser.ReadResponse(contact.getQuery().getRepresentation());
                 currentPage++;
             }
         }
