@@ -30,7 +30,7 @@ public class JSONParse {
      * @param repr The Representation object to read from
      * @return Response object containing the data from the JSONObject collection or resource
      */
-    public QueryResponse ReadResponse(Representation repr)
+    public QueryResponse readResponse(Representation repr)
     {
         JSONObject object = null;
         InputStream is;
@@ -60,11 +60,11 @@ public class JSONParse {
         // handle the json response according to response type
         if(objectType.equals("collection") || objectType.equals("report"))
         {
-            response = FormatCollection(object);
+            response = formatCollection(object);
         }
         else if(objectType.equals("resource"))
         {
-            response = FormatResource(object);
+            response = formatResource(object);
         }
         else
         {
@@ -82,7 +82,7 @@ public class JSONParse {
      * @param obj The object containing the data to be formatted
      * @return Response object containing the data from the JSONObject collection
      */
-    private QueryResponse FormatCollection(JSONObject obj)
+    private QueryResponse formatCollection(JSONObject obj)
     {
         int count;
         int countPerPage;
@@ -102,7 +102,7 @@ public class JSONParse {
 
         if(!pagesObject.isNull(nextUrl))
         {
-            nextUrl = pagesObject.getString(nextUrl);
+            nextUrl = pagesObject.getString(JSONParse.nextUrl);
         }
         else
         {
@@ -121,7 +121,7 @@ public class JSONParse {
         {
             JSONObject tempObject = dataArray.getJSONObject(i);
             System.out.println(tempObject.toString());
-            FormatResource(tempObject, response);
+            formatResource(tempObject, response);
         }
 
         return response;
@@ -134,7 +134,7 @@ public class JSONParse {
      * @param obj The object containing the data to be formatted
      * @return Response object containing the data from the JSONObject resource
      */
-    private QueryResponse FormatResource(JSONObject obj)
+    private QueryResponse formatResource(JSONObject obj)
     {
         String date;
         String resourceUrl;
@@ -157,7 +157,7 @@ public class JSONParse {
      * @param obj The object containing the data to be formatted
      * @param response The response object from the parent collection
      */
-    private void FormatResource(JSONObject obj, QueryResponse response)
+    private void formatResource(JSONObject obj, QueryResponse response)
     {
         String date;
         String resourceUrl;

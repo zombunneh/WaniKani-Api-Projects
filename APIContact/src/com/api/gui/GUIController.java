@@ -3,7 +3,6 @@ package com.api.gui;
 import com.api.json.JSONParse;
 import com.api.json.QueryResponse;
 import com.api.queries.APIContact;
-import com.api.queries.APIQueryConstructor;
 import com.api.queries.APIQueryFactory;
 
 public class GUIController {
@@ -52,7 +51,6 @@ public class GUIController {
     public void onRegisterMakeQueryButtonClick(String query, String endpoint)
     {
         // Create query object in model
-        APIQueryFactory fac = new APIQueryFactory();
         contact.setQueryType(query);
         // Set endpoint of query
         contact.setCategory(endpoint);
@@ -72,7 +70,7 @@ public class GUIController {
         // Pass initial query response to parser
         QueryResponse response;
         JSONParse parser = new JSONParse();
-        response = parser.ReadResponse(contact.getQuery().getRepresentation());
+        response = parser.readResponse(contact.getQuery().getRepresentation());
         // Calculate the number of pages in the response
         int numPages = response.collectionCount / response.collectionCountPerPage;
         if(response.collectionCountPerPage % response.collectionCount != 0)
@@ -89,7 +87,7 @@ public class GUIController {
 
                 contact.getQuery().MakeQuery(response.nextUrl);
 
-                response = parser.ReadResponse(contact.getQuery().getRepresentation());
+                response = parser.readResponse(contact.getQuery().getRepresentation());
                 currentPage++;
             }
         }
