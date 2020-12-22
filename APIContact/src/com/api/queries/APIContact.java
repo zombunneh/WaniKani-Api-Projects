@@ -88,17 +88,7 @@ public class APIContact {
         System.out.println(SetFormatMessage);
     }
 
-    /**
-     *
-     *
-     *
-     * @throws Exception If graphics window fails to draw
-     */
-    public void createAndShowWindow() throws Exception
-    {
-        GUIModel model = new GUIModel();
-        GUIController controller = new GUIController(this, model);
-    }
+
 
     /**
      *

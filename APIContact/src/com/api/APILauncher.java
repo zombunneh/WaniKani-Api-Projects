@@ -10,6 +10,8 @@
 
 package com.api;
 
+import com.api.gui.GUIController;
+import com.api.gui.GUIModel;
 import com.api.json.JSONParse;
 import com.api.queries.APIQueryConstructor;
 import com.api.queries.Query;
@@ -19,7 +21,6 @@ import javax.swing.*;
 
 public class APILauncher {
     private static APIContact contact;
-    private static final APIQueryConstructor constructor = new APIQueryConstructor();
 
     /**
      *
@@ -37,38 +38,13 @@ public class APILauncher {
      */
     public static void main(String[] args) {
         contact = new APIContact();
-        /*Query q = null;
-        String nextUrl = "";
-
-        q = contact.SetQueryType(q);
-        q.setQueryConstructor(constructor);
-
-        contact.SetAPIKey(q);
-        System.out.println(q.GetAPIKey());
-
-        contact.SetCategory(q);
-        System.out.println(q.GetEndpoint().toString());
-
-        q.MakeQuery("");
-
-        JSONParse parser = new JSONParse();
-        nextUrl = parser.ReadResponse(q.GetRepresentation());
-
-        if(!nextUrl.equals(""))
-        {
-            while(!nextUrl.equals(""))
-            {
-                q.MakeQuery(nextUrl);
-
-                nextUrl = parser.ReadResponse(q.GetRepresentation());
-            }
-        }*/
+        APILauncher launcher = new APILauncher();
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
                 try {
-                    contact.createAndShowWindow();
+                    launcher.createAndShowWindow();
                 }
                 catch(Exception e)
                 {
@@ -76,5 +52,17 @@ public class APILauncher {
                 }
             }
         });
+    }
+
+    /**
+     *
+     *
+     *
+     * @throws Exception If graphics window fails to draw
+     */
+    public void createAndShowWindow() throws Exception
+    {
+        GUIModel model = new GUIModel();
+        GUIController controller = new GUIController(contact, model);
     }
 }
