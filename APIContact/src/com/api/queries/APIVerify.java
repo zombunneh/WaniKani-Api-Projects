@@ -19,13 +19,18 @@ public class APIVerify {
 
     private static final String max_level = "max_level_granted";
     private static final String subscription_active = "active";
+    private static final String type_subscription = "type";
+
+    private int max_level_num;
+    private boolean subscription_bool;
+    private String type;
 
     /**
      *
+     * Retrieves information from a JSON Object contained within the Representation object regarding the user's subscription status and returns whether the query was successful
      *
-     *
-     * @param repr
-     * @return
+     * @param repr The Representation object to read from
+     * @return A boolean representing whether the supplied API Key was valid
      */
     public boolean verifyAPIKey(Representation repr)
     {
@@ -38,10 +43,9 @@ public class APIVerify {
         {
             JSONObject dataObject = response.jObject[0];
 
-            int max_level_num = dataObject.getInt(max_level);
-            boolean subscription_bool = dataObject.getBoolean(subscription_active);
-
-
+            max_level_num = dataObject.getInt(max_level);
+            subscription_bool = dataObject.getBoolean(subscription_active);
+            type = dataObject.getString(type_subscription);
         }
         else
         {
@@ -49,5 +53,20 @@ public class APIVerify {
         }
 
         return true;
+    }
+
+    public int getMax_level_num()
+    {
+        return max_level_num;
+    }
+
+    public boolean isSubscription_bool()
+    {
+        return subscription_bool;
+    }
+
+    public String getType()
+    {
+        return type;
     }
 }

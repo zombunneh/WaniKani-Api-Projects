@@ -8,6 +8,11 @@ public class GUIModel{
     private QueryResponse[] responses;
     private int numPages;
 
+    // These variables are for user management / caching and are a layer of security checks to ensure invalid API calls are not made according to the stated limitations in the API docs
+    private int max_level_num;
+    private boolean subscription_bool;
+    private String user_type;
+
     public GUIModel()
     {
 
@@ -43,5 +48,29 @@ public class GUIModel{
     public QueryResponse getResponseAtIndex(int index)
     {
         return responses[index];
+    }
+
+    public int getMax_level_num() {
+        return max_level_num;
+    }
+
+    public void setMax_level_num(int max_level_num) {
+        this.max_level_num = max_level_num;
+    }
+
+    public boolean isSubscription_bool() {
+        return subscription_bool;
+    }
+
+    public void setSubscription_bool(boolean subscription_bool) {
+        this.subscription_bool = subscription_bool;
+    }
+
+    public String getType() {
+        return user_type;
+    }
+
+    public void setType(String type) {
+        this.user_type = type;
     }
 }

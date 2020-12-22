@@ -10,14 +10,11 @@
 
 package com.api;
 
-import java.util.Scanner;
-
-import com.api.json.JSONParse;
 import com.api.queries.APIQueryFactory;
-import com.api.queries.APIVerify;
 import com.api.queries.Query;
 
 public class APIContact {
+    /* These are unused string constants from a previous version of the program
     public static final Scanner UserInputScanner = new Scanner(System.in);
 
     private static final String WelcomeMessage = "Please enter a Query Type:";
@@ -26,6 +23,7 @@ public class APIContact {
     private static final String SetCategoryMessage = "Please enter the chosen Category:";
     public static final String InvalidCategoryMessage = "Invalid Category. Please enter a valid Category";
     public static final String SetFormatMessage = "Please choose a data format:";
+    */
 
     private Query query;
 
@@ -90,31 +88,12 @@ public class APIContact {
 
     /**
      *
-     *
-     *
-     * @param jparse JSONParse object
-     */
-    public void setFormatQuery(JSONParse jparse)
-    {
-        System.out.println(SetFormatMessage);
-    }
-
-
-
-    /**
-     *
      * Verifies the API key provided with the server, checking subscription status to validate use of program
      *
      */
-    public Boolean verifyAPIKey()
+    public void verifyAPIKeyQuery()
     {
-        APIVerify verifier = new APIVerify();
-
         query.setEndpoint(APIEndpoint.USER);
         query.makeQuery("");
-
-        verifier.verifyAPIKey(query.getRepresentation());
-
-        return true;
     }
 }

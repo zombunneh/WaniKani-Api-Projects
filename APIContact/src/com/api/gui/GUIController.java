@@ -3,6 +3,7 @@ package com.api.gui;
 import com.api.json.JSONParse;
 import com.api.json.QueryResponse;
 import com.api.APIContact;
+import com.api.queries.APIVerify;
 
 public class GUIController {
     private APIContact contact;
@@ -31,14 +32,22 @@ public class GUIController {
      */
     public void onRegisterVerifyButtonClick(String APIKey)
     {
-        Boolean verified;
+        boolean verified;
+        APIVerify verifier = new APIVerify();
+
         contact.setAPIKey(APIKey);
-        verified = contact.verifyAPIKey();
+        contact.verifyAPIKeyQuery();
+
+        verified = verifier.verifyAPIKey(contact.getQuery().getRepresentation());
 
         if(verified)
         {
             model.setAPIKey(APIKey);
             view.enableComponents();
+
+            model.setMax_level_num(verifier.getMax_level_num());
+            model.setSubscription_bool(verifier.isSubscription_bool());
+            model.setType(verifier.getType());
         }
     }
 
