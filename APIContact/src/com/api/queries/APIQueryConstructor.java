@@ -1,5 +1,6 @@
 package com.api.queries;
 
+import com.api.APIEndpoint;
 import org.restlet.data.ChallengeResponse;
 import org.restlet.data.ChallengeScheme;
 import org.restlet.data.Header;

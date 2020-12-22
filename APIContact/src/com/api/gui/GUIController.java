@@ -2,8 +2,7 @@ package com.api.gui;
 
 import com.api.json.JSONParse;
 import com.api.json.QueryResponse;
-import com.api.queries.APIContact;
-import com.api.queries.APIQueryFactory;
+import com.api.APIContact;
 
 public class GUIController {
     private APIContact contact;
@@ -33,7 +32,9 @@ public class GUIController {
     public void onRegisterVerifyButtonClick(String APIKey)
     {
         Boolean verified;
-        verified = contact.verifyAPIKey(APIKey);
+        contact.setAPIKey(APIKey);
+        verified = contact.verifyAPIKey();
+
         if(verified)
         {
             model.setAPIKey(APIKey);
@@ -57,7 +58,7 @@ public class GUIController {
         // Set API key for query
         contact.setAPIKey(model.getAPIKey());
         // Make query
-        contact.getQuery().MakeQuery("");
+        contact.getQuery().makeQuery("");
         // Handle response
         parseResponse();
     }
@@ -85,7 +86,7 @@ public class GUIController {
             {
                 model.addResponseArray(response, currentPage);
 
-                contact.getQuery().MakeQuery(response.nextUrl);
+                contact.getQuery().makeQuery(response.nextUrl);
 
                 response = parser.readResponse(contact.getQuery().getRepresentation());
                 currentPage++;

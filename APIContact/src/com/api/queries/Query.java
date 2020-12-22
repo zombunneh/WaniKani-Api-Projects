@@ -1,5 +1,6 @@
 package com.api.queries;
 
+import com.api.APIEndpoint;
 import org.restlet.representation.Representation;
 
 public abstract class Query implements QueryInterface{
@@ -47,7 +48,7 @@ public abstract class Query implements QueryInterface{
     }
 
     @Override
-    public void MakeQuery(String url)
+    public void makeQuery(String url)
     {
         System.out.println(QType.toString() + APIKey + AEndpoint.toString());
 

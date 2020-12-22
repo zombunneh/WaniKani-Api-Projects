@@ -23,9 +23,8 @@ public class JSONParse {
     private static final String updateDate = "data_updated_at";
 
     /**
-     * TODO: Overload method for different response types
-     * TODO: Need to check for next page url, and construct new query to retrieve next page if necessary
-     * Might convert next url to class attribute when threaded
+     *
+     *
      *
      * @param repr The Representation object to read from
      * @return Response object containing the data from the JSONObject collection or resource

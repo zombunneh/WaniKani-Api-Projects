@@ -12,10 +12,7 @@ package com.api;
 
 import com.api.gui.GUIController;
 import com.api.gui.GUIModel;
-import com.api.json.JSONParse;
-import com.api.queries.APIQueryConstructor;
-import com.api.queries.Query;
-import com.api.queries.APIContact;
+import com.api.APIContact;
 
 import javax.swing.*;
 

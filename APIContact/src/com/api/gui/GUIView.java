@@ -1,12 +1,11 @@
 package com.api.gui;
 
-import com.api.queries.APIEndpoint;
+import com.api.APIEndpoint;
 import com.api.queries.QueryType;
 
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.Method;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GUIView {
