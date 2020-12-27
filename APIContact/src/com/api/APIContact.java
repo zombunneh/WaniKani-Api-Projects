@@ -12,6 +12,7 @@ package com.api;
 
 import com.api.queries.APIQueryFactory;
 import com.api.queries.Query;
+import com.api.queries.QueryType;
 
 public class APIContact {
     /* These are unused string constants from a previous version of the program
@@ -26,10 +27,12 @@ public class APIContact {
     */
 
     private Query query;
+    private APIQueryFactory fac;
 
     public APIContact()
     {
-        query = null;
+        fac = new APIQueryFactory();
+        query = fac.createQueryType(QueryType.GET.toString());
     }
 
     public Query getQuery() {
@@ -48,9 +51,7 @@ public class APIContact {
      */
     public Boolean setQueryType(String queryTypeInput)
     {
-        APIQueryFactory fac = new APIQueryFactory();
-
-        query = fac.CreateQueryType(queryTypeInput);
+        query = fac.createQueryType(queryTypeInput);
 
         return query != null;
     }

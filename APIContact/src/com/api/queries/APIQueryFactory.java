@@ -1,10 +1,8 @@
 package com.api.queries;
 
-import org.apiguardian.api.API;
-
 public class APIQueryFactory {
 
-    public Query CreateQueryType(String queryType)
+    public Query createQueryType(String queryType)
     {
         Query q = null;
         APIQueryConstructor constructor = new APIQueryConstructor();
