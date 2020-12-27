@@ -20,10 +20,13 @@ public class APIVerify {
     private static final String max_level = "max_level_granted";
     private static final String subscription_active = "active";
     private static final String type_subscription = "type";
+    private static final String subscriptionData = "subscription";
+    private static final String resourceID = "id";
 
     private int max_level_num;
     private boolean subscription_bool;
     private String type;
+    private String user_id;
 
     /**
      *
@@ -43,9 +46,13 @@ public class APIVerify {
         {
             JSONObject dataObject = response.jObject[0];
 
-            max_level_num = dataObject.getInt(max_level);
-            subscription_bool = dataObject.getBoolean(subscription_active);
-            type = dataObject.getString(type_subscription);
+            JSONObject subscriptionObject = dataObject.getJSONObject(subscriptionData);
+
+            max_level_num = subscriptionObject.getInt(max_level);
+            subscription_bool = subscriptionObject.getBoolean(subscription_active);
+            type = subscriptionObject.getString(type_subscription);
+
+            user_id = dataObject.getString(resourceID);
         }
         else
         {
@@ -68,5 +75,10 @@ public class APIVerify {
     public String getType()
     {
         return type;
+    }
+
+    public String getUser_id()
+    {
+        return user_id;
     }
 }

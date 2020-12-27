@@ -1,6 +1,7 @@
 package com.api.json;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.restlet.representation.Representation;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -10,7 +11,7 @@ import java.io.InputStream;
 
 public class JSONParse {
 
-    private int pageNum = 0;
+    private int pageNum;
 
     private static final String dataString = "data";
     private static final String pagesString = "pages";
@@ -21,6 +22,11 @@ public class JSONParse {
     private static final String nextUrl = "next_url";
     private static final String resourceID = "id";
     private static final String updateDate = "data_updated_at";
+
+    public JSONParse()
+    {
+        pageNum = 0;
+    }
 
     /**
      *
@@ -57,17 +63,17 @@ public class JSONParse {
         objectType = object.getString("object");
 
         // handle the json response according to response type
-        if(objectType.equals("collection") || objectType.equals("report"))
+        if(objectType.equals("collection"))
         {
             response = formatCollection(object);
         }
-        else if(objectType.equals("resource"))
+        else if(objectType.equals("report"))
         {
-            response = formatResource(object);
+            response = formatReport(object);
         }
         else
         {
-            throw new IllegalArgumentException("Unable to determine resource type " + objectType);
+            response = formatResource(object);
         }
 
         return response;
@@ -75,8 +81,7 @@ public class JSONParse {
 
     /**
      *
-     * Method to format a collection or report object and display it to the user
-     * TODO: Implement check for next page of results, return non-empty string to query for next page, format date received - maybe cache data
+     * Method to format a collection object
      *
      * @param obj The object containing the data to be formatted
      * @return Response object containing the data from the JSONObject collection
@@ -89,38 +94,42 @@ public class JSONParse {
         String nextUrl = "";
         String date;
 
+        QueryResponse response = null;
+
         pageNum++;
 
         JSONArray dataArray = obj.getJSONArray(dataString);
-
         JSONObject pagesObject = obj.getJSONObject(pagesString);
 
         count = obj.getInt(totalCount);
         collectionUrl = obj.getString(url);
         countPerPage = pagesObject.getInt(pageCount);
 
-        if(!pagesObject.isNull(nextUrl))
+        if(count > 0)
         {
-            nextUrl = pagesObject.getString(JSONParse.nextUrl);
-        }
-        else
-        {
-            nextUrl = "";
-        }
+            if(!pagesObject.isNull(nextUrl))
+            {
+                nextUrl = pagesObject.getString(JSONParse.nextUrl);
+            }
+            else
+            {
+                nextUrl = "";
+            }
 
-        date = obj.getString(updateDate);
+            date = obj.getString(updateDate);
 
-        System.out.println("Page: " + pageNum);
-        System.out.println("Amount of results returned: " + count);
-        System.out.println("Date updated: " + date);
+            System.out.println("Page: " + pageNum);
+            System.out.println("Amount of results returned: " + count);
+            System.out.println("Date updated: " + date);
 
-        QueryResponse response = new QueryResponse(count, countPerPage, nextUrl, collectionUrl, date);
+            response = new QueryResponse(count, countPerPage, nextUrl, collectionUrl, date);
 
-        for(int i = 0; i < dataArray.length(); i++)
-        {
-            JSONObject tempObject = dataArray.getJSONObject(i);
-            System.out.println(tempObject.toString());
-            formatResource(tempObject, response);
+            for(int i = 0; i < dataArray.length(); i++)
+            {
+                JSONObject tempObject = dataArray.getJSONObject(i);
+                System.out.println(tempObject.toString());
+                formatResource(tempObject, response);
+            }
         }
 
         return response;
@@ -128,7 +137,34 @@ public class JSONParse {
 
     /**
      *
+     * Method to format a report object
      *
+     * @param obj The object containing the data to be formatted
+     * @return Response object containing the data from the JSONObject report
+     */
+    private QueryResponse formatReport(JSONObject obj)
+    {
+        String collectionUrl;
+        String date;
+
+        QueryResponse response = null;
+
+        JSONObject dataObject = obj.getJSONObject(dataString);
+
+        collectionUrl = obj.getString(url);
+
+        date = obj.getString(updateDate);
+
+        System.out.println(dataObject.toString());
+
+        response = new QueryResponse(collectionUrl, date, dataObject);
+
+        return response;
+    }
+
+    /**
+     *
+     * Method for formatting a singular resource on its own
      *
      * @param obj The object containing the data to be formatted
      * @return Response object containing the data from the JSONObject resource
@@ -141,17 +177,31 @@ public class JSONParse {
 
         date = obj.getString(updateDate);
         resourceUrl = obj.getString(url);
-        id = obj.getInt(resourceID);
 
         JSONObject dataObject = obj.getJSONObject("data");
         System.out.println(dataObject.toString());
+
+        if(!obj.isNull(resourceID))
+        {
+            id = obj.getInt(resourceID);
+        }
+        else
+        {
+            try {
+                id = dataObject.getInt(resourceID);
+            }
+            catch(JSONException e)
+            {
+                id = -1;
+            }
+        }
 
         return new QueryResponse(date, resourceUrl, id, dataObject);
     }
 
     /**
      *
-     *
+     * Method for formatting a singular resource as part of a collection
      *
      * @param obj The object containing the data to be formatted
      * @param response The response object from the parent collection
@@ -164,10 +214,24 @@ public class JSONParse {
 
         date = obj.getString(updateDate);
         resourceUrl = obj.getString(url);
-        id = obj.getInt(resourceID);
 
         JSONObject dataObject = obj.getJSONObject("data");
         System.out.println(dataObject.toString());
+
+        if(!obj.isNull(resourceID))
+        {
+            id = obj.getInt(resourceID);
+        }
+        else
+        {
+            try {
+                id = dataObject.getInt(resourceID);
+            }
+            catch(JSONException e)
+            {
+                id = -1;
+            }
+        }
 
         response.addResource(date, resourceUrl, id, dataObject);
     }

@@ -9,9 +9,11 @@ import java.lang.reflect.Method;
 import java.util.ResourceBundle;
 
 public class GUIView {
-    private GUIController controller;
+    private final GUIController controller;
 
     public static final String frameTitle = "WaniKani Data Viewer";
+    private static final String APIKeyPrompt = "Please enter an API Key";
+    private static final String emptyReplyPrompt = "There are no results to display";
 
     private JFrame frame;
     private JTextField APIInputField;
@@ -65,6 +67,21 @@ public class GUIView {
         // Set up table for results
         TablePanel.setEnabled(false);
     }
+    /**
+     * Sets the actions performed by the components of the gui when interacted with
+     * TODO: Verify key format with regex
+     */
+    private void setActions() {
+        APIVerifyButton.addActionListener(e -> {
+            if (!APIInputField.getText().equals("")) {
+                controller.onRegisterVerifyButtonClick(APIInputField.getText());
+            } else {
+                JOptionPane.showMessageDialog(frame.getComponent(0), APIKeyPrompt);
+            }
+        });
+
+        QueryButton.addActionListener(e -> controller.onRegisterMakeQueryButtonClick((String) QueryOptions.getSelectedItem(), (String) EndpointOptions.getSelectedItem()));
+    }
 
     /**
      * Enables all components to be usable after the API key is verified
@@ -76,19 +93,11 @@ public class GUIView {
     }
 
     /**
-     * Sets the actions performed by the components of the gui when interacted with
-     * TODO: Verify key format with regex
+     * Displays a prompt to the user when a query returns no or null results
      */
-    private void setActions() {
-        APIVerifyButton.addActionListener(e -> {
-            if (!APIInputField.getText().equals("")) {
-                controller.onRegisterVerifyButtonClick(APIInputField.getText());
-            } else {
-                JOptionPane.showMessageDialog(frame.getComponent(0), "Please enter an API Key");
-            }
-        });
-
-        QueryButton.addActionListener(e -> controller.onRegisterMakeQueryButtonClick((String) QueryOptions.getSelectedItem(), (String) EndpointOptions.getSelectedItem()));
+    public void displayEmptyResultsMessage()
+    {
+        JOptionPane.showMessageDialog(frame.getComponent(0), emptyReplyPrompt);
     }
 
     {

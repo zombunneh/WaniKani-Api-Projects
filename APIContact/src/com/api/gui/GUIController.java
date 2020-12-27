@@ -48,6 +48,7 @@ public class GUIController {
             model.setMax_level_num(verifier.getMax_level_num());
             model.setSubscription_bool(verifier.isSubscription_bool());
             model.setType(verifier.getType());
+            model.setUser_id(verifier.getUser_id());
         }
     }
 
@@ -77,29 +78,53 @@ public class GUIController {
      */
     private void parseResponse()
     {
+        int currentPage = 0;
         // Pass initial query response to parser
         QueryResponse response;
         JSONParse parser = new JSONParse();
         response = parser.readResponse(contact.getQuery().getRepresentation());
         // Calculate the number of pages in the response
-        int numPages = response.collectionCount / response.collectionCountPerPage;
-        if(response.collectionCountPerPage % response.collectionCount != 0)
-            numPages++;
-        // Initialise the array in GUIModel with correct number of indexes
-        model.initialiseResponseArray(numPages);
-        // Keep making queries to retrieve any following pages
-        int currentPage = 0;
-        if(!response.nextUrl.equals(""))
+        if(response != null)
         {
-            while(!response.nextUrl.equals(""))
+            if(response.isCollection)
             {
-                model.addResponseArray(response, currentPage);
+                int numPages = response.collectionCount / response.collectionCountPerPage;
+                if(response.collectionCountPerPage % response.collectionCount != 0)
+                    numPages++;
+                // Initialise the array in GUIModel with correct number of indexes
+                model.initialiseResponseArray(numPages);
+                // Keep making queries to retrieve any following pages
 
-                contact.getQuery().makeQuery(response.nextUrl);
+                if(!response.nextUrl.equals(""))
+                {
+                    while(!response.nextUrl.equals(""))
+                    {
+                        model.addResponseArray(response, currentPage);
 
-                response = parser.readResponse(contact.getQuery().getRepresentation());
-                currentPage++;
+                        contact.getQuery().makeQuery(response.nextUrl);
+
+                        response = parser.readResponse(contact.getQuery().getRepresentation());
+                        currentPage++;
+                    }
+                }
             }
+            else if(response.isReport)
+            {
+                model.initialiseResponseArray(1);
+
+                model.addResponseArray(response, currentPage);
+            }
+            else if(response.isResource)
+            {
+                model.initialiseResponseArray(1);
+
+                model.addResponseArray(response, currentPage);
+            }
+        }
+        else
+        {
+            // If there was no data for the current user:
+            view.displayEmptyResultsMessage();
         }
     }
 }

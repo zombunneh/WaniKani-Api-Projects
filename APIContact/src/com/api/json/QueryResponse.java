@@ -10,20 +10,29 @@
 
 package com.api.json;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+// Consider switching to private constructors if threading to prevent creation of multiple query responses
 
 /**
  * This class for internal use to represent the parsed response to return to calling classes
  */
 public class QueryResponse {
     public Boolean isCollection = false;
-
+    public Boolean isReport = false;
+    public Boolean isResource = false;
+    // Collection variables
     public String collectionDate;
     public int collectionCount;
     public int collectionCountPerPage;
     public String nextUrl;
     public String collectionUrl;
-
+    // Report variables
+    public JSONObject reportObject;
+    public String reportUrl;
+    public String reportDate;
+    // Resource variables
     public int resourceCount = 0;
     public String[] date;
     public String[] resourceUrl;
@@ -37,9 +46,11 @@ public class QueryResponse {
      * @param id          The id of the resource
      * @param jObject     The JSONObject containing the resource specific information
      */
-    QueryResponse(String date, String resourceUrl, int id, JSONObject jObject) {
+    public QueryResponse(String date, String resourceUrl, int id, JSONObject jObject) {
         // Set type of class to resource
         isCollection = false;
+        isReport = false;
+        isResource = true;
         // Initialise resource arrays to size 1
         this.date = new String[1];
         this.resourceUrl = new String[1];
@@ -61,9 +72,11 @@ public class QueryResponse {
      * @param collectionUrl The url of the collection object returned
      * @param date          The date the resource was last updated
      */
-    QueryResponse(int count, int countPerPage, String nextUrl, String collectionUrl, String date) {
+    public QueryResponse(int count, int countPerPage, String nextUrl, String collectionUrl, String date) {
         // Set type of class to collection
         isCollection = true;
+        isReport = false;
+        isResource = false;
         // Initialise collection specific variables
         collectionCount = count;
         collectionCountPerPage = countPerPage;
@@ -75,6 +88,18 @@ public class QueryResponse {
         this.resourceUrl = new String[count];
         this.id = new int[count];
         this.jObject = new JSONObject[count];
+    }
+
+    public QueryResponse(String reportUrl, String date, JSONObject reportData)
+    {
+        // Set type of class to report
+        isCollection = false;
+        isReport = true;
+        isResource = false;
+        // Initialise report specific variables
+        this.reportUrl = reportUrl;
+        this.reportDate = date;
+        this.reportObject = reportData;
     }
 
     /**

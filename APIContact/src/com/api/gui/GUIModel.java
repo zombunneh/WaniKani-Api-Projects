@@ -12,6 +12,7 @@ public class GUIModel{
     private int max_level_num;
     private boolean subscription_bool;
     private String user_type;
+    private String user_id;
 
     public GUIModel()
     {
@@ -72,5 +73,15 @@ public class GUIModel{
 
     public void setType(String type) {
         this.user_type = type;
+    }
+
+    public String getUser_id()
+    {
+        return user_id;
+    }
+
+    public void setUser_id(String id)
+    {
+        this.user_id = id;
     }
 }
