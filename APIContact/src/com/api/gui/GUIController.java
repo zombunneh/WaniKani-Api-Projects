@@ -5,10 +5,12 @@ import com.api.json.QueryResponse;
 import com.api.APIContact;
 import com.api.queries.APIVerify;
 
+import javax.swing.*;
+
 public class GUIController {
-    private APIContact contact;
-    private GUIModel model;
-    private GUIView view;
+    private final APIContact contact;
+    private final GUIModel model;
+    private final GUIView view;
 
     /**
      *
@@ -43,12 +45,13 @@ public class GUIController {
         if(verified)
         {
             model.setAPIKey(APIKey);
-            view.enableComponents();
-
             model.setMax_level_num(verifier.getMax_level_num());
             model.setSubscription_bool(verifier.isSubscription_bool());
             model.setType(verifier.getType());
             model.setUser_id(verifier.getUser_id());
+
+            // edit the gui on the EDT
+            SwingUtilities.invokeLater(() -> view.enableComponents());
         }
     }
 
@@ -124,7 +127,7 @@ public class GUIController {
         else
         {
             // If there was no data for the current user:
-            view.displayEmptyResultsMessage();
+            SwingUtilities.invokeLater(() -> view.displayEmptyResultsMessage());
         }
     }
 }

@@ -49,7 +49,7 @@ public class APIQueryConstructor {
      *
      * To access a specific data point an ID must be supplied, may overload method later to provide functionality
      *
-     * TODO: FLEXIBLE API CALL + PROCESS API RESPONSE AS JSON OBJECT + CHECK FOR NEXT PAGE IN RESPONSE (new method/class)?
+     * TODO: FLEXIBLE API CALL
      *
      * @param APIKey The API key to be used for authorization
      * @param requestType The type of restful request to make, corresponds to the 4 verbs
