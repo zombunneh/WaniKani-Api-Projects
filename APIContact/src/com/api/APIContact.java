@@ -15,19 +15,9 @@ import com.api.queries.Query;
 import com.api.queries.QueryType;
 
 public class APIContact {
-    /* These are unused string constants from a previous version of the program
-    public static final Scanner UserInputScanner = new Scanner(System.in);
-
-    private static final String WelcomeMessage = "Please enter a Query Type:";
-    private static final String InvalidQueryTypeMessage = "Invalid Query Type. Please enter a valid Query Type:";
-    private static final String SetAPIKeyMessage = "Please enter your API Key:";
-    private static final String SetCategoryMessage = "Please enter the chosen Category:";
-    public static final String InvalidCategoryMessage = "Invalid Category. Please enter a valid Category";
-    public static final String SetFormatMessage = "Please choose a data format:";
-    */
 
     private Query query;
-    private APIQueryFactory fac;
+    private final APIQueryFactory fac;
 
     public APIContact()
     {
