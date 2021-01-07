@@ -6,11 +6,14 @@ import com.api.APIContact;
 import com.api.queries.APIVerify;
 
 import javax.swing.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class GUIController {
     private final APIContact contact;
     private final GUIModel model;
     private final GUIView view;
+    private final ExecutorService exService;
 
     /**
      *
@@ -24,6 +27,12 @@ public class GUIController {
         this.contact = contact;
         this.model = model;
         view = new GUIView(this);
+        exService = Executors.newSingleThreadExecutor();
+    }
+
+    public void createWorkerThread()
+    {
+
     }
 
     /**
