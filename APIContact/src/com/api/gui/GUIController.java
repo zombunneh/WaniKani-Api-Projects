@@ -30,11 +30,6 @@ public class GUIController {
         exService = Executors.newSingleThreadExecutor();
     }
 
-    public void createWorkerThread()
-    {
-
-    }
-
     /**
      *
      *
