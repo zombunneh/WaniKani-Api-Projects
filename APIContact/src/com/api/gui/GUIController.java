@@ -29,18 +29,34 @@ public class GUIController {
         view = new GUIView(this);
         exService = Executors.newSingleThreadExecutor();
     }
+    /*
+    Here starts controller methods for view to call
+     */
 
+    public void onRegisterVerifyButtonClicked(String APIKey)
+    {
+        exService.submit(() -> verifyButtonClickAction(APIKey));
+    }
+
+    public void onRegisterMakeQueryButtonClick(String query, String endpoint)
+    {
+        exService.submit(() -> makeQueryButtonClickAction(query, endpoint));
+    }
+
+
+    /*
+    Here starts private implementations of controller logic
+     */
     /**
      *
      *
      *
      * @param APIKey The API key to verify and store
      */
-    public void onRegisterVerifyButtonClick(String APIKey)
+    private void verifyButtonClickAction(String APIKey)
     {
         boolean verified;
         APIVerify verifier = new APIVerify();
-
         contact.setAPIKey(APIKey);
         contact.verifyAPIKeyQuery();
 
@@ -66,7 +82,7 @@ public class GUIController {
      * @param query
      * @param endpoint
      */
-    public void onRegisterMakeQueryButtonClick(String query, String endpoint)
+    private void makeQueryButtonClickAction(String query, String endpoint)
     {
         // Create query object in model
         contact.setQueryType(query);
@@ -81,7 +97,7 @@ public class GUIController {
     }
 
     /**
-     *
+     * This should probably be moved to JSONParse.java in the future
      */
     private void parseResponse()
     {

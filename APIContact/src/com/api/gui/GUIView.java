@@ -74,7 +74,7 @@ public class GUIView {
     private void setActions() {
         APIVerifyButton.addActionListener(e -> {
             if (!APIInputField.getText().equals("")) {
-                controller.onRegisterVerifyButtonClick(APIInputField.getText());
+                controller.onRegisterVerifyButtonClicked(APIInputField.getText());
             } else {
                 JOptionPane.showMessageDialog(frame.getComponent(0), APIKeyPrompt);
             }
